@@ -7,7 +7,7 @@ import {
 import { User } from "../types";
 
 export const Route = createFileRoute("/_auth_routes")({
-  beforeLoad: ({ location }) => {
+  beforeLoad: () => {
     const user = localStorage.getItem("user");
 
     if (user) {
@@ -17,9 +17,6 @@ export const Route = createFileRoute("/_auth_routes")({
         throw redirect({
           to: "/login",
           replace: true,
-          search: {
-            next: location.pathname,
-          },
         });
       }
     }
