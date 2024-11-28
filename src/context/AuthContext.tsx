@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { loginUser } from "../services/auth";
 import { User } from "../types";
+import { toastError } from "../utils";
 
 interface AuthContextType {
   user: User | null;
@@ -12,6 +14,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,8 +37,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
+      navigate({ to: "/dashboard", replace: true });
     } catch (error) {
-      throw new Error("Login failed");
+      toastError(error);
     }
   };
 

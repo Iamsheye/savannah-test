@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_auth_routes")({
   },
   pendingComponent: () => {
     return (
-      <div className="flex h-[75vh] items-center justify-center">
+      <div className="flex h-[100dvh] items-center justify-center">
         <p className="text-center text-[1rem] font-semibold text-form_text md:text-[1.5rem]">
           loading...
         </p>
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/_auth_routes")({
     const router = useRouter();
 
     return (
-      <div className="flex h-[75vh] items-center justify-center">
+      <div className="flex h-[100dvh] items-center justify-center">
         <p className="text-center text-[1rem] font-semibold text-form_text md:text-[1.5rem]">
           <span>An error occured😞, please</span>{" "}
           <button

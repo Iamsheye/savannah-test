@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { useAuth } from "../context/AuthContext";
 import { useHookForm } from "../hook/useHookForm";
@@ -21,7 +21,6 @@ export const Route = createFileRoute("/login")({
 
 function Login() {
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -33,12 +32,7 @@ function Login() {
   });
 
   const submitForm = handleSubmit(async (data) => {
-    try {
-      await login(data);
-      navigate({ to: "/dashboard", replace: true });
-    } catch (err) {
-      console.log(err);
-    }
+    await login(data);
   });
 
   return (
