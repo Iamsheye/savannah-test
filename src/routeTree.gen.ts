@@ -11,14 +11,41 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
+import { Route as AuthroutesImport } from './routes/_auth_routes'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthroutesDashboardImport } from './routes/_auth_routes/dashboard'
+import { Route as AuthroutesArchivedImport } from './routes/_auth_routes/archived'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthroutesRoute = AuthroutesImport.update({
+  id: '/_auth_routes',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthroutesDashboardRoute = AuthroutesDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthroutesRoute,
+} as any)
+
+const AuthroutesArchivedRoute = AuthroutesArchivedImport.update({
+  id: '/archived',
+  path: '/archived',
+  getParentRoute: () => AuthroutesRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -32,39 +59,103 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_auth_routes': {
+      id: '/_auth_routes'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthroutesImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth_routes/archived': {
+      id: '/_auth_routes/archived'
+      path: '/archived'
+      fullPath: '/archived'
+      preLoaderRoute: typeof AuthroutesArchivedImport
+      parentRoute: typeof AuthroutesImport
+    }
+    '/_auth_routes/dashboard': {
+      id: '/_auth_routes/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthroutesDashboardImport
+      parentRoute: typeof AuthroutesImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthroutesRouteChildren {
+  AuthroutesArchivedRoute: typeof AuthroutesArchivedRoute
+  AuthroutesDashboardRoute: typeof AuthroutesDashboardRoute
+}
+
+const AuthroutesRouteChildren: AuthroutesRouteChildren = {
+  AuthroutesArchivedRoute: AuthroutesArchivedRoute,
+  AuthroutesDashboardRoute: AuthroutesDashboardRoute,
+}
+
+const AuthroutesRouteWithChildren = AuthroutesRoute._addFileChildren(
+  AuthroutesRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '': typeof AuthroutesRouteWithChildren
+  '/login': typeof LoginRoute
+  '/archived': typeof AuthroutesArchivedRoute
+  '/dashboard': typeof AuthroutesDashboardRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '': typeof AuthroutesRouteWithChildren
+  '/login': typeof LoginRoute
+  '/archived': typeof AuthroutesArchivedRoute
+  '/dashboard': typeof AuthroutesDashboardRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/_auth_routes': typeof AuthroutesRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_auth_routes/archived': typeof AuthroutesArchivedRoute
+  '/_auth_routes/dashboard': typeof AuthroutesDashboardRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '' | '/login' | '/archived' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '' | '/login' | '/archived' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth_routes'
+    | '/login'
+    | '/_auth_routes/archived'
+    | '/_auth_routes/dashboard'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthroutesRoute: typeof AuthroutesRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthroutesRoute: AuthroutesRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +168,31 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/_auth_routes",
+        "/login"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/_auth_routes": {
+      "filePath": "_auth_routes.tsx",
+      "children": [
+        "/_auth_routes/archived",
+        "/_auth_routes/dashboard"
+      ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/_auth_routes/archived": {
+      "filePath": "_auth_routes/archived.tsx",
+      "parent": "/_auth_routes"
+    },
+    "/_auth_routes/dashboard": {
+      "filePath": "_auth_routes/dashboard.tsx",
+      "parent": "/_auth_routes"
     }
   }
 }
