@@ -10,5 +10,17 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
+    coverage: {
+      exclude: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "./coverage/**",
+        "./src/assets/**",
+        "./**/*.config.{js,ts}",
+        "./**/*.d.ts",
+        "./src/routeTree.gen.ts",
+        "./src/context/**/provider.tsx",
+      ],
+    },
   },
 });
