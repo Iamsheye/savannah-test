@@ -12,34 +12,36 @@ function RecommendationCard({ recommendation }: Props) {
   return (
     <div
       // onClick={onClick}
-      className="p-4 rounded-lg border cursor-pointer transition-all border-gray-200 hover:shadow-md bg-white">
-      <div className="flex justify-between items-start gap-1">
+      className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-all hover:shadow-md"
+    >
+      <div className="flex items-start justify-between gap-1">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
             <h3 className="text-lg font-semibold">{recommendation.title}</h3>
-            <div className="flex gap-2 shrink-0">
+            <div className="flex shrink-0 gap-2">
               {recommendation.provider.map((provider) => (
                 <img
                   key={provider}
                   src={CloudIcons[provider]}
-                  className="object-contain h-6 w-6"
+                  className="h-6 w-6 object-contain"
                 />
               ))}
             </div>
           </div>
-          <div className="text-xs font-medium flex items-center gap-1">
+          <div className="flex items-center gap-1 text-xs font-medium">
             Risk Score:
             <RiskScoreIndicator score={recommendation.score} />(
             {recommendation.score})
           </div>
-          <p className="text-gray-600 line-clamp-3">
+          <p className="line-clamp-3 text-gray-600">
             {recommendation.description}
           </p>
-          <div className="flex flex-wrap gap-2 items-center">
+          <div className="flex flex-wrap items-center gap-2">
             {recommendation.frameworks.map((framework) => (
               <span
                 key={framework.name}
-                className="text-xs font-medium bg-gray-100 text-gray-900 px-2 py-1 rounded-md">
+                className="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-900"
+              >
                 {framework.name}
               </span>
             ))}

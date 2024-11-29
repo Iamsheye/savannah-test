@@ -5,7 +5,7 @@ import { LoginBody, LoginRes } from "./types";
 export const loginUser = async (body: LoginBody) => {
   const response = await api.post<LoginRes, AxiosResponse<LoginRes>, LoginBody>(
     "/login",
-    body
+    body,
   );
   return response.data;
 };

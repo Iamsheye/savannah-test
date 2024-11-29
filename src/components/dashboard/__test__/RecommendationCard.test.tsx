@@ -63,7 +63,7 @@ describe("RecommendationCard", () => {
   it("renders recommendation description", () => {
     render(<RecommendationCard recommendation={mockRecommendation} />);
     expect(
-      screen.getByText(mockRecommendation.description)
+      screen.getByText(mockRecommendation.description),
     ).toBeInTheDocument();
   });
 

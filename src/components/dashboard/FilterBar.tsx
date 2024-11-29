@@ -42,7 +42,7 @@ function FilterBar({
 
   const toggleFilter = (
     type: "providers" | "frameworks" | "classes" | "reasons",
-    value: string
+    value: string,
   ) => {
     const currentFilters = filters[type];
     const newFilters = currentFilters.includes(value)
@@ -57,20 +57,21 @@ function FilterBar({
 
   return (
     <div className="mb-6">
-      <div className="flex flex-wrap gap-1 justify-between items-center">
-        <div className="flex gap-2 items-center">
+      <div className="flex flex-wrap items-center justify-between gap-1">
+        <div className="flex items-center gap-2">
           <input
             type="text"
             placeholder="Search recommendations..."
-            className="w-64 px-2.5 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-64 rounded-lg border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
           />
 
           <div className="relative">
             <button
-              className="px-2.5 py-1.5 border rounded-lg hover:bg-white text-sm font-medium"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}>
+              className="rounded-lg border px-2.5 py-1.5 text-sm font-medium hover:bg-white"
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+            >
               Filters{" "}
               {filters.providers.length +
                 filters.frameworks.length +
@@ -83,7 +84,8 @@ function FilterBar({
             {isFilterOpen && (
               <div
                 ref={ref}
-                className="mt-2 p-1.5 border rounded-lg bg-gray-50 overflow-y-auto absolute top-full md:left-0 right-0 w-80 z-10 h-auto max-h-96">
+                className="absolute right-0 top-full z-10 mt-2 h-auto max-h-96 w-80 overflow-y-auto rounded-lg border bg-gray-50 p-1.5 md:left-0"
+              >
                 <Accordion
                   items={[
                     {
@@ -93,7 +95,8 @@ function FilterBar({
                           {availableTags?.providers.map((provider) => (
                             <label
                               key={provider}
-                              className="flex items-center gap-2 mb-2 capitalize text-sm">
+                              className="mb-2 flex items-center gap-2 text-sm capitalize"
+                            >
                               <input
                                 type="checkbox"
                                 checked={filters.providers.includes(provider)}
@@ -114,7 +117,8 @@ function FilterBar({
                           {availableTags?.frameworks.map((framework) => (
                             <label
                               key={framework}
-                              className="flex items-center gap-2 mb-2 text-sm">
+                              className="mb-2 flex items-center gap-2 text-sm"
+                            >
                               <input
                                 type="checkbox"
                                 checked={filters.frameworks.includes(framework)}
@@ -136,7 +140,8 @@ function FilterBar({
                           {availableTags?.classes.map((class_) => (
                             <label
                               key={class_}
-                              className="flex items-center gap-2 mb-2 text-sm">
+                              className="mb-2 flex items-center gap-2 text-sm"
+                            >
                               <input
                                 type="checkbox"
                                 checked={filters.classes.includes(class_)}
@@ -155,7 +160,8 @@ function FilterBar({
                           {availableTags?.reasons.map((reason) => (
                             <label
                               key={reason}
-                              className="flex items-center gap-2 mb-2 text-sm">
+                              className="mb-2 flex items-center gap-2 text-sm"
+                            >
                               <input
                                 type="checkbox"
                                 checked={filters.reasons.includes(reason)}
@@ -174,7 +180,7 @@ function FilterBar({
           </div>
         </div>
 
-        <p className="text-medium text-gray-600 text-sm">
+        <p className="text-medium text-sm text-gray-600">
           Showing {showing} of {total} results
         </p>
       </div>

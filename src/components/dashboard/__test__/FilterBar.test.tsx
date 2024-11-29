@@ -61,13 +61,13 @@ describe("FilterBar", () => {
     render(<FilterBar {...defaultProps} />);
 
     expect(
-      screen.getByPlaceholderText("Search recommendations...")
+      screen.getByPlaceholderText("Search recommendations..."),
     ).toBeInTheDocument();
     expect(screen.getByText("Filters")).toBeInTheDocument();
     expect(
       screen.getByText(
-        `Showing ${defaultProps.showing} of ${defaultProps.total} results`
-      )
+        `Showing ${defaultProps.showing} of ${defaultProps.total} results`,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -75,7 +75,7 @@ describe("FilterBar", () => {
     render(<FilterBar {...defaultProps} />);
 
     const searchInput = screen.getByPlaceholderText(
-      "Search recommendations..."
+      "Search recommendations...",
     );
     fireEvent.change(searchInput, { target: { value: "test" } });
     expect(defaultProps.onSearchChange).toHaveBeenCalledWith("test");

@@ -10,28 +10,29 @@ const Accordion = ({ items }: AccordionItemProps) => {
 
   const toggleItem = (index: number) => {
     setExpandedItems((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
   return (
-    <div className="w-full max-w-md mx-auto space-y-1">
+    <div className="mx-auto w-full max-w-md space-y-1">
       {items.map((item, index) => (
-        <div key={index} className="border rounded-md overflow-hidden">
+        <div key={index} className="overflow-hidden rounded-md border">
           <button
             onClick={() => toggleItem(index)}
-            className={`bg-white flex w-full justify-between items-center px-2 py-1.5 text-sm transition-colors duration-200 ${expandedItems.includes(index) ? "border-b" : ""}`}>
+            className={`flex w-full items-center justify-between bg-white px-2 py-1.5 text-sm transition-colors duration-200 ${expandedItems.includes(index) ? "border-b" : ""}`}
+          >
             <span>{item.title}</span>
 
             {expandedItems.includes(index) ? (
-              <ChevronUp className="text-gray-600 w-5 h-5" />
+              <ChevronUp className="h-5 w-5 text-gray-600" />
             ) : (
-              <ChevronDown className="text-gray-600 w-5 h-5" />
+              <ChevronDown className="h-5 w-5 text-gray-600" />
             )}
           </button>
 
           {expandedItems.includes(index) && (
-            <div className="px-2 py-1 bg-white">{item.children}</div>
+            <div className="bg-white px-2 py-1">{item.children}</div>
           )}
         </div>
       ))}

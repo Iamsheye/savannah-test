@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 export const useOutsideClick = (
   callback: () => void,
-  listenCapturing: boolean = true
+  listenCapturing: boolean = true,
 ) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -19,7 +19,7 @@ export const useOutsideClick = (
       document.removeEventListener(
         "mousedown",
         handleClickOutside,
-        listenCapturing
+        listenCapturing,
       );
     };
   }, [callback, listenCapturing]);

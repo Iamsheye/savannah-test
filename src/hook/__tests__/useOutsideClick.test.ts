@@ -52,7 +52,7 @@ describe("useOutsideClick", () => {
     expect(addEventListenerSpy).toHaveBeenCalledWith(
       "mousedown",
       expect.any(Function),
-      false
+      false,
     );
 
     unmount();
@@ -60,7 +60,7 @@ describe("useOutsideClick", () => {
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
       "mousedown",
       expect.any(Function),
-      false
+      false,
     );
   });
 

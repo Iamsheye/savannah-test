@@ -24,7 +24,8 @@ const RiskScoreIndicator = ({ score }: { score: number }) => {
       {fillLevels.map((level, index) => (
         <div
           key={index}
-          className="relative w-3 h-3 rounded-sm overflow-hidden">
+          className="relative h-3 w-3 overflow-hidden rounded-sm"
+        >
           <div
             className="absolute bottom-0 h-full transition-[width] duration-300"
             style={{

@@ -15,7 +15,7 @@ export const archiveRecommendation = async (id: string) => {
 
 export const unarchiveRecommendation = async (id: string) => {
   const response = await api.post<ArchiveRes>(
-    `/recommendations/${id}/unarchive`
+    `/recommendations/${id}/unarchive`,
   );
   return response.data;
 };

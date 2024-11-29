@@ -6,7 +6,7 @@ import MenuContext from "../../../context/menu";
 
 const renderWithProviders = (
   ui: React.ReactElement,
-  { authValue = {}, menuValue = {} } = {}
+  { authValue = {}, menuValue = {} } = {},
 ) => {
   return render(
     <AuthContext.Provider
@@ -16,12 +16,14 @@ const renderWithProviders = (
         isLoading: false,
         logout: vi.fn(),
         ...authValue,
-      }}>
+      }}
+    >
       <MenuContext.Provider
-        value={{ showMenu: false, setShowMenu: vi.fn(), ...menuValue }}>
+        value={{ showMenu: false, setShowMenu: vi.fn(), ...menuValue }}
+      >
         {ui}
       </MenuContext.Provider>
-    </AuthContext.Provider>
+    </AuthContext.Provider>,
   );
 };
 
@@ -73,7 +75,7 @@ describe("Sidebar", () => {
     });
 
     vi.spyOn(document, "querySelector").mockReturnValue(
-      mockRecommendationsList
+      mockRecommendationsList,
     );
 
     renderWithProviders(<Sidebar />, {

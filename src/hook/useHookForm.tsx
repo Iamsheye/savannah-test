@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const useHookForm = <T extends z.ZodType<any, any>>(
   schema: T,
-  defaultValues?: z.infer<T>
+  defaultValues?: z.infer<T>,
 ) => {
   return useForm<z.infer<T>>({
     defaultValues,

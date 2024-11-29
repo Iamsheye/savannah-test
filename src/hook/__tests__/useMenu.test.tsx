@@ -13,7 +13,8 @@ describe("useMenu", () => {
     value?: { showMenu: boolean; setShowMenu: () => void };
   }) => (
     <MenuContext.Provider
-      value={value || { showMenu: false, setShowMenu: () => {} }}>
+      value={value || { showMenu: false, setShowMenu: () => {} }}
+    >
       {children}
     </MenuContext.Provider>
   );

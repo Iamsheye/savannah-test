@@ -36,7 +36,7 @@ describe("Accordion", () => {
     const buttons = screen.getAllByRole("button");
     expect(buttons[0].querySelector(".lucide-chevron-up")).toBeInTheDocument();
     expect(
-      buttons[1].querySelector(".lucide-chevron-down")
+      buttons[1].querySelector(".lucide-chevron-down"),
     ).toBeInTheDocument();
   });
 });

@@ -1,13 +1,13 @@
 import { useState, useCallback, Fragment } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { Menu } from "lucide-react";
 import { getRecommendations } from "../../services/recommendations";
 import useDebounce from "../../hook/useDebounce";
 import { Recommendation } from "../../types";
 import FilterBar from "../../components/dashboard/FilterBar";
 import RecommendationCard from "../../components/dashboard/RecommendationCard";
 import ArchiveIcon from "../../assets/archive";
-import { Menu } from "lucide-react";
 import { useMenu } from "../../hook/useMenu";
 
 export const Route = createFileRoute("/_auth_routes/dashboard")({
@@ -61,16 +61,16 @@ function Dashboard() {
         fetchNextPage();
       }
     },
-    [fetchNextPage, hasNextPage]
+    [fetchNextPage, hasNextPage],
   );
 
   return (
     <div>
       <div>
-        <div className="flex items-center gap-4 mb-8">
+        <div className="mb-8 flex items-center gap-4">
           <Menu className="md:hidden" onClick={() => setShowMenu(!showMenu)} />
-          <div className="flex justify-between items-center grow">
-            <h2 className="font-semibold text-3xl">Recommendations</h2>
+          <div className="flex grow items-center justify-between">
+            <h2 className="text-3xl font-semibold">Recommendations</h2>
             <button className="flex items-center gap-1.5 text-sm font-medium">
               <ArchiveIcon />
               <span>Archive</span>
@@ -93,8 +93,9 @@ function Dashboard() {
 
       <div
         data-testid="recommendations-list"
-        className="recommendations-list overflow-y-auto md:h-[calc(100dvh-158px)] gap-3 flex-col flex h-[calc(100dvh-182px)]"
-        onScroll={handleScroll}>
+        className="recommendations-list flex h-[calc(100dvh-182px)] flex-col gap-3 overflow-y-auto md:h-[calc(100dvh-158px)]"
+        onScroll={handleScroll}
+      >
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error loading recommendations</div>}
         {!isLoading &&
@@ -114,7 +115,7 @@ function Dashboard() {
           !isError &&
           data?.pages.reduce((acc, page) => acc + page.data.length, 0) ===
             0 && (
-            <div className="text-center mt-8">No recommendations found</div>
+            <div className="mt-8 text-center">No recommendations found</div>
           )}
       </div>
     </div>
