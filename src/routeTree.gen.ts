@@ -15,7 +15,6 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthroutesImport } from './routes/_auth_routes'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthroutesDashboardImport } from './routes/_auth_routes/dashboard'
-import { Route as AuthroutesArchivedImport } from './routes/_auth_routes/archived'
 
 // Create/Update Routes
 
@@ -39,12 +38,6 @@ const IndexRoute = IndexImport.update({
 const AuthroutesDashboardRoute = AuthroutesDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => AuthroutesRoute,
-} as any)
-
-const AuthroutesArchivedRoute = AuthroutesArchivedImport.update({
-  id: '/archived',
-  path: '/archived',
   getParentRoute: () => AuthroutesRoute,
 } as any)
 
@@ -73,13 +66,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_auth_routes/archived': {
-      id: '/_auth_routes/archived'
-      path: '/archived'
-      fullPath: '/archived'
-      preLoaderRoute: typeof AuthroutesArchivedImport
-      parentRoute: typeof AuthroutesImport
-    }
     '/_auth_routes/dashboard': {
       id: '/_auth_routes/dashboard'
       path: '/dashboard'
@@ -93,12 +79,10 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthroutesRouteChildren {
-  AuthroutesArchivedRoute: typeof AuthroutesArchivedRoute
   AuthroutesDashboardRoute: typeof AuthroutesDashboardRoute
 }
 
 const AuthroutesRouteChildren: AuthroutesRouteChildren = {
-  AuthroutesArchivedRoute: AuthroutesArchivedRoute,
   AuthroutesDashboardRoute: AuthroutesDashboardRoute,
 }
 
@@ -110,7 +94,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthroutesRouteWithChildren
   '/login': typeof LoginRoute
-  '/archived': typeof AuthroutesArchivedRoute
   '/dashboard': typeof AuthroutesDashboardRoute
 }
 
@@ -118,7 +101,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthroutesRouteWithChildren
   '/login': typeof LoginRoute
-  '/archived': typeof AuthroutesArchivedRoute
   '/dashboard': typeof AuthroutesDashboardRoute
 }
 
@@ -127,22 +109,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth_routes': typeof AuthroutesRouteWithChildren
   '/login': typeof LoginRoute
-  '/_auth_routes/archived': typeof AuthroutesArchivedRoute
   '/_auth_routes/dashboard': typeof AuthroutesDashboardRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/archived' | '/dashboard'
+  fullPaths: '/' | '' | '/login' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/archived' | '/dashboard'
-  id:
-    | '__root__'
-    | '/'
-    | '/_auth_routes'
-    | '/login'
-    | '/_auth_routes/archived'
-    | '/_auth_routes/dashboard'
+  to: '/' | '' | '/login' | '/dashboard'
+  id: '__root__' | '/' | '/_auth_routes' | '/login' | '/_auth_routes/dashboard'
   fileRoutesById: FileRoutesById
 }
 
@@ -179,16 +154,11 @@ export const routeTree = rootRoute
     "/_auth_routes": {
       "filePath": "_auth_routes.tsx",
       "children": [
-        "/_auth_routes/archived",
         "/_auth_routes/dashboard"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
-    },
-    "/_auth_routes/archived": {
-      "filePath": "_auth_routes/archived.tsx",
-      "parent": "/_auth_routes"
     },
     "/_auth_routes/dashboard": {
       "filePath": "_auth_routes/dashboard.tsx",

@@ -1,19 +1,11 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { loginUser } from "../services/auth";
-import { User } from "../types";
-import { toastError } from "../utils";
+import { loginUser } from "../../services/auth";
+import { User } from "../../types";
+import { toastError } from "../../utils";
+import AuthContext from ".";
 
-interface AuthContextType {
-  user: User | null;
-  login: (data: { username: string; password: string }) => Promise<void>;
-  logout: () => void;
-  isLoading: boolean;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User | null>(null);
@@ -46,6 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    navigate({ to: "/login", replace: true });
   };
 
   return (
@@ -55,12 +48,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-
-  return context;
-};
+export default AuthProvider;

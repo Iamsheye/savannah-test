@@ -5,6 +5,7 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { User } from "../types";
+import Sidebar from "../components/dashboard/Sidebar";
 
 export const Route = createFileRoute("/_auth_routes")({
   beforeLoad: () => {
@@ -19,6 +20,11 @@ export const Route = createFileRoute("/_auth_routes")({
           replace: true,
         });
       }
+    } else {
+      throw redirect({
+        to: "/login",
+        replace: true,
+      });
     }
   },
   pendingComponent: () => {
@@ -49,5 +55,12 @@ export const Route = createFileRoute("/_auth_routes")({
       </div>
     );
   },
-  component: () => <Outlet />,
+  component: () => (
+    <section className="flex overflow-hidden bg-slate-50">
+      <Sidebar />
+      <div className="mx-10 mt-8 grow">
+        <Outlet />
+      </div>
+    </section>
+  ),
 });

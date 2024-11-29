@@ -4,7 +4,8 @@ import {
   ScrollRestoration,
   createRootRoute,
 } from "@tanstack/react-router";
-import { AuthProvider } from "../context/AuthContext";
+import {  } from "../hook/useAuth";
+import AuthProvider from "../context/auth/provider";
 
 export const Route = createRootRoute({
   component: RootComponent,
