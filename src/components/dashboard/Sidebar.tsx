@@ -24,6 +24,7 @@ const Sidebar = () => {
   return (
     <div
       ref={ref}
+      data-testid="sidebar"
       className={`bg-white border-r border-r-slate-200 p-4 basis-[225px] shrink-0 sticky top-0 h-screen z-10 sidebar ${showMenu ? "active" : ""}`}>
       <div className="mb-3">
         <h1 className="text-center text-5xl font-serif">ARYON</h1>

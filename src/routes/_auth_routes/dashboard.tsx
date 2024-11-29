@@ -92,6 +92,7 @@ function Dashboard() {
       </div>
 
       <div
+        data-testid="recommendations-list"
         className="recommendations-list overflow-y-auto md:h-[calc(100dvh-158px)] gap-3 flex-col flex h-[calc(100dvh-182px)]"
         onScroll={handleScroll}>
         {isLoading && <div>Loading...</div>}
