@@ -1,10 +1,30 @@
+import { useEffect } from "react";
 import { useAuth } from "../../hook/useAuth";
+import { useMenu } from "../../hook/useMenu";
+import { useOutsideClick } from "../../hook/useOutsideClick";
 
 const Sidebar = () => {
   const { logout } = useAuth();
+  const { showMenu, setShowMenu } = useMenu();
+
+  useEffect(() => {
+    const recommendationsList = document.querySelector(
+      ".recommendations-list"
+    ) as HTMLElement;
+    if (!recommendationsList) return;
+    if (showMenu) {
+      recommendationsList.style.overflow = "hidden";
+    } else {
+      recommendationsList.style.overflow = "auto";
+    }
+  }, [showMenu]);
+
+  const ref = useOutsideClick(() => setShowMenu(false));
 
   return (
-    <div className="bg-white border-r border-r-slate-200 p-4 basis-[225px] shrink-0 sticky top-0 h-screen">
+    <div
+      ref={ref}
+      className={`bg-white border-r border-r-slate-200 p-4 basis-[225px] shrink-0 sticky top-0 h-screen z-10 sidebar ${showMenu ? "active" : ""}`}>
       <div className="mb-3">
         <h1 className="text-center text-5xl font-serif">ARYON</h1>
       </div>

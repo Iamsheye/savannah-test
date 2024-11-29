@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Accordion from "./Accordion";
+import { useOutsideClick } from "../../hook/useOutsideClick";
 
 interface FilterBarProps {
   total: number;
@@ -37,6 +38,8 @@ function FilterBar({
 }: FilterBarProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  const ref = useOutsideClick(() => setIsFilterOpen(false));
+
   const toggleFilter = (
     type: "providers" | "frameworks" | "classes" | "reasons",
     value: string
@@ -54,7 +57,7 @@ function FilterBar({
 
   return (
     <div className="mb-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap gap-1 justify-between items-center">
         <div className="flex gap-2 items-center">
           <input
             type="text"
@@ -78,7 +81,9 @@ function FilterBar({
             </button>
 
             {isFilterOpen && (
-              <div className="mt-2 p-1.5 border rounded-lg bg-gray-50 overflow-y-auto absolute top-full left-0 w-80 z-10 h-auto max-h-96">
+              <div
+                ref={ref}
+                className="mt-2 p-1.5 border rounded-lg bg-gray-50 overflow-y-auto absolute top-full md:left-0 right-0 w-80 z-10 h-auto max-h-96">
                 <Accordion
                   items={[
                     {

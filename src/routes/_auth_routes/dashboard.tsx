@@ -7,12 +7,16 @@ import { Recommendation } from "../../types";
 import FilterBar from "../../components/dashboard/FilterBar";
 import RecommendationCard from "../../components/dashboard/RecommendationCard";
 import ArchiveIcon from "../../assets/archive";
+import { Menu } from "lucide-react";
+import { useMenu } from "../../hook/useMenu";
 
 export const Route = createFileRoute("/_auth_routes/dashboard")({
   component: Dashboard,
 });
 
 function Dashboard() {
+  const { showMenu, setShowMenu } = useMenu();
+
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<{
     providers: string[];
@@ -63,12 +67,15 @@ function Dashboard() {
   return (
     <div>
       <div>
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="font-semibold text-3xl">Recommendations</h2>
-          <button className="flex items-center gap-1.5 text-sm font-medium">
-            <ArchiveIcon />
-            <span>Archive</span>
-          </button>
+        <div className="flex items-center gap-4 mb-8">
+          <Menu className="md:hidden" onClick={() => setShowMenu(!showMenu)} />
+          <div className="flex justify-between items-center grow">
+            <h2 className="font-semibold text-3xl">Recommendations</h2>
+            <button className="flex items-center gap-1.5 text-sm font-medium">
+              <ArchiveIcon />
+              <span>Archive</span>
+            </button>
+          </div>
         </div>
 
         <FilterBar
@@ -85,7 +92,7 @@ function Dashboard() {
       </div>
 
       <div
-        className="overflow-y-auto h-[calc(100dvh-158px)] gap-3 flex-col flex"
+        className="recommendations-list overflow-y-auto md:h-[calc(100dvh-158px)] gap-3 flex-col flex h-[calc(100dvh-182px)]"
         onScroll={handleScroll}>
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error loading recommendations</div>}
