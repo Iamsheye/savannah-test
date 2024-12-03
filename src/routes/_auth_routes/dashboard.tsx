@@ -1,6 +1,7 @@
-import { useState, useCallback, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
 import { Menu } from "lucide-react";
 import { getRecommendations } from "../../services/recommendations";
 import useDebounce from "../../hook/useDebounce";
@@ -34,35 +35,42 @@ function Dashboard() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, fetchNextPage, hasNextPage, isLoading, isError } =
-    useInfiniteQuery({
-      queryKey: ["recommendations", debouncedSearch, filters],
-      initialPageParam: undefined,
-      queryFn: async ({ pageParam }: { pageParam: string | undefined }) =>
-        await getRecommendations({
-          cursor: pageParam,
-          limit: 10,
-          search: debouncedSearch,
-          tags: [
-            ...filters.providers,
-            ...filters.frameworks,
-            ...filters.classes,
-            ...filters.reasons,
-          ].join(","),
-        }),
-      getNextPageParam: (lastPage) =>
-        lastPage.pagination.cursor.next || undefined,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+    isSuccess,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["recommendations", debouncedSearch, filters],
+    initialPageParam: undefined,
+    queryFn: async ({ pageParam }: { pageParam: string | undefined }) =>
+      await getRecommendations({
+        cursor: pageParam,
+        limit: 10,
+        search: debouncedSearch,
+        tags: [
+          ...filters.providers,
+          ...filters.frameworks,
+          ...filters.classes,
+          ...filters.reasons,
+        ].join(","),
+      }),
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination.cursor.next || undefined,
+  });
 
-  const handleScroll = useCallback(
-    (e: React.UIEvent<HTMLDivElement>) => {
-      const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
-      if (scrollHeight - scrollTop <= clientHeight * 1.5 && hasNextPage) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage],
-  );
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <div>
@@ -95,8 +103,7 @@ function Dashboard() {
 
       <div
         data-testid="recommendations-list"
-        className="recommendations-list flex h-[calc(100dvh-182px)] flex-col gap-3 overflow-y-auto md:h-[calc(100dvh-158px)]"
-        onScroll={handleScroll}
+        className="recommendations-list relative flex h-[calc(100dvh-182px)] flex-col gap-3 overflow-y-auto md:h-[calc(100dvh-158px)]"
       >
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error loading recommendations</div>}
@@ -119,6 +126,12 @@ function Dashboard() {
             0 && (
             <div className="mt-8 text-center">No recommendations found</div>
           )}
+        {isSuccess && <div className="ref" ref={ref}></div>}
+        {isFetchingNextPage && (
+          <div className="relative bottom-5 flex justify-center bg-transparent py-1">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-400 border-t-teal-100"></div>
+          </div>
+        )}
       </div>
     </div>
   );
