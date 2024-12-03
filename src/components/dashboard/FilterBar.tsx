@@ -62,14 +62,14 @@ function FilterBar({
           <input
             type="text"
             placeholder="Search recommendations..."
-            className="w-64 rounded-lg border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-64 rounded-lg border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-teal-600"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
           />
 
           <div className="relative">
             <button
-              className="rounded-lg border px-2.5 py-1.5 text-sm font-medium hover:bg-white"
+              className="rounded-lg border-[1.5px] border-teal-600 bg-teal-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-white hover:text-teal-600"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
             >
               Filters{" "}

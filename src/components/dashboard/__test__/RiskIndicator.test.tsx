@@ -25,7 +25,7 @@ describe("RiskScoreIndicator", () => {
     const { container } = render(<RiskScoreIndicator score={35} />);
     const fills = container.querySelectorAll(".absolute");
     expect(fills[0]).toHaveStyle({ width: "100%" });
-    expect(fills[1]).toHaveStyle({ width: "0%" });
+    expect(fills[1]).toHaveStyle({ width: "40%" });
     expect(fills[2]).toHaveStyle({ width: "0%" });
     expect(fills[3]).toHaveStyle({ width: "0%" });
   });

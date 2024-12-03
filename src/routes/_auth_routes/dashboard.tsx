@@ -70,7 +70,9 @@ function Dashboard() {
         <div className="mb-8 flex items-center gap-4">
           <Menu className="md:hidden" onClick={() => setShowMenu(!showMenu)} />
           <div className="flex grow items-center justify-between">
-            <h2 className="text-3xl font-semibold">Recommendations</h2>
+            <h2 className="text-3xl font-semibold text-teal-600">
+              Recommendations
+            </h2>
             <button className="flex items-center gap-1.5 text-sm font-medium">
               <ArchiveIcon />
               <span>Archive</span>

@@ -28,7 +28,9 @@ const Sidebar = () => {
       className={`sidebar sticky top-0 z-10 h-screen shrink-0 basis-[225px] border-r border-r-slate-200 bg-white p-4 ${showMenu ? "active" : ""}`}
     >
       <div className="mb-3">
-        <h1 className="text-center font-serif text-5xl">ARYON</h1>
+        <h1 className="text-center font-serif text-5xl font-semibold text-teal-600">
+          ARYON
+        </h1>
       </div>
 
       <p className="mb-1.5 text-xs font-medium text-slate-600">Platform</p>

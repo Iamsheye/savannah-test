@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { useAuth } from "../hook/useAuth";
 import { useHookForm } from "../hook/useHookForm";
 import Input from "../components/auth/Input";
+import { User } from "../types";
 
 const signupSchema = z.object({
   username: z.string().min(2, "Username must be at least 2 characters"),
@@ -17,6 +18,20 @@ const signupSchema = z.object({
 
 export const Route = createFileRoute("/login")({
   component: Login,
+  beforeLoad: () => {
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      const { token } = JSON.parse(user) as User;
+
+      if (token) {
+        throw redirect({
+          to: "/dashboard",
+          replace: true,
+        });
+      }
+    }
+  },
 });
 
 function Login() {

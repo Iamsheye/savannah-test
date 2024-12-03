@@ -12,8 +12,8 @@ const RiskScoreIndicator = ({ score }: { score: number }) => {
         const boxScore = normalizedScore - previousThreshold;
 
         if (boxScore <= 0) return 0;
-        if (boxScore >= boxValue) return 2;
-        return boxScore >= boxValue / 2 ? 1 : 0;
+        if (boxScore >= boxValue) return 100;
+        return (boxScore / boxValue) * 100;
       });
   };
 
@@ -30,7 +30,7 @@ const RiskScoreIndicator = ({ score }: { score: number }) => {
             className="absolute bottom-0 h-full transition-[width] duration-300"
             style={{
               backgroundColor: colors[index],
-              width: level === 0 ? "0%" : level === 1 ? "50%" : "100%",
+              width: `${level}%`,
             }}
           />
         </div>
