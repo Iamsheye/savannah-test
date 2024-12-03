@@ -41,7 +41,6 @@ function Dashboard() {
     hasNextPage,
     isLoading,
     isError,
-    isSuccess,
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["recommendations", debouncedSearch, filters],
@@ -63,7 +62,7 @@ function Dashboard() {
   });
 
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.8,
   });
 
   useEffect(() => {
@@ -109,15 +108,23 @@ function Dashboard() {
         {isError && <div>Error loading recommendations</div>}
         {!isLoading &&
           !isError &&
-          data?.pages.map((page, i) => (
-            <Fragment key={i}>
-              {page.data.map((recommendation: Recommendation) => (
-                <RecommendationCard
-                  key={recommendation.recommendationId}
-                  recommendation={recommendation}
-                  // onClick={() => setSelectedRecommendation(recommendation)}
-                />
-              ))}
+          data?.pages.map((page, pageIndex) => (
+            <Fragment key={pageIndex}>
+              {page.data.map((recommendation: Recommendation, index) =>
+                index === page.data.length - 1 ? (
+                  <div ref={ref} key={recommendation.recommendationId}>
+                    <RecommendationCard
+                      key={recommendation.recommendationId}
+                      recommendation={recommendation}
+                    />
+                  </div>
+                ) : (
+                  <RecommendationCard
+                    key={recommendation.recommendationId}
+                    recommendation={recommendation}
+                  />
+                ),
+              )}
             </Fragment>
           ))}
         {!isLoading &&
@@ -126,7 +133,6 @@ function Dashboard() {
             0 && (
             <div className="mt-8 text-center">No recommendations found</div>
           )}
-        {isSuccess && <div className="ref" ref={ref}></div>}
         {isFetchingNextPage && (
           <div className="relative bottom-5 flex justify-center bg-transparent py-1">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-400 border-t-teal-100"></div>
