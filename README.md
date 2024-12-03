@@ -27,10 +27,10 @@ git clone https://github.com/Iamsheye/savannah-test.git
 cd savannah-test
 ```
 
-2. Install dependencies:
+2. Install all dependencies (both frontend and server):
 
 ```bash
-bun install
+ bun run install:all
 ```
 
 3. Create a `.env` file in the root directory with the following variables:
@@ -45,7 +45,10 @@ VITE_API_URL=http://localhost:3001
 bun run dev
 ```
 
-The application will be available at `http://localhost:5173`
+The application will be available at:
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3001
 
 ## Testing
 
@@ -62,3 +65,12 @@ bun run test:cov
 ```
 
 Coverage reports will be generated in the `coverage` directory.
+
+## Available Scripts
+
+- `npm run dev` - Start both frontend and backend servers
+- `npm run dev:auth` - Start both servers with authentication enabled
+- `npm run build` - Build both frontend and backend
+- `npm run test` - Run frontend tests
+- `npm run test:server` - Run backend tests
+- `npm run test:cov` - Generate test coverage report
