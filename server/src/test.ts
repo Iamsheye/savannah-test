@@ -9,7 +9,7 @@ async function testServer() {
     // Test 1: Get recommendations (first page)
     console.log('1. Testing GET /recommendations');
     const recommendations = await fetch(`${BASE_URL}/recommendations?limit=2`);
-    const recommendationsData = await recommendations.json();
+    const recommendationsData: any = await recommendations.json();
     console.log('Response:', JSON.stringify(recommendationsData, null, 2), '\n');
 
     // Test 2: Archive a recommendation
@@ -47,7 +47,7 @@ async function testServer() {
         password: 'password'
       })
     });
-    const loginData = await login.json();
+    const loginData: any = await login.json();
     console.log('Response:', JSON.stringify(loginData, null, 2), '\n');
 
     // Test 6: Authenticated request
