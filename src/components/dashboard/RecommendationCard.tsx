@@ -2,6 +2,7 @@
 import { Recommendation } from "@/types";
 import { CloudIcons } from "@/utils";
 import RiskScoreIndicator from "./RiskIndicator";
+import { Badge } from "../ui/badge";
 
 interface Props {
   recommendation: Recommendation;
@@ -33,12 +34,9 @@ function RecommendationCard({ recommendation }: Props) {
           </p>
           <div className="flex flex-wrap items-center gap-2">
             {recommendation.frameworks.map((framework) => (
-              <span
-                key={framework.name}
-                className="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-900"
-              >
+              <Badge key={framework.name} variant="secondary">
                 {framework.name}
-              </span>
+              </Badge>
             ))}
           </div>
         </div>
