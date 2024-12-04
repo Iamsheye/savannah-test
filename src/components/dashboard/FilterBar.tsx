@@ -155,11 +155,11 @@ function FilterBar({
 
   return (
     <div className="mb-6">
-      <div className="flex flex-wrap items-center justify-between gap-1">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-1.5">
+        <div className="flex grow items-center gap-2 md:grow-0">
           <Input
             type="text"
-            className="w-64"
+            className="w-64 grow md:grow-0"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search recommendations..."
@@ -203,7 +203,7 @@ function FilterBar({
           </DropdownMenu>
         </div>
 
-        <p className="text-medium text-sm text-gray-600">
+        <p className="text-medium text-sm text-gray-600 md:w-fit w-full text-center">
           Showing {showing} of {total} results
         </p>
       </div>
