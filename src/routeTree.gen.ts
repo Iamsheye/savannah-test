@@ -27,7 +27,7 @@ const LoginRoute = LoginImport.update({
 const AuthroutesRoute = AuthroutesImport.update({
   id: '/_auth_routes',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/_auth_routes.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
   id: '/',
