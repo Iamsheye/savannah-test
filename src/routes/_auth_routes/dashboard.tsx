@@ -75,9 +75,9 @@ function Dashboard() {
   return (
     <div>
       <div>
-        <div className="mb-8 flex items-center gap-4">
+        <div className="mb-8 flex gap-4 md:items-center">
           <Menu className="md:hidden" onClick={() => toggleMenu()} />
-          <div className="flex grow items-center justify-between">
+          <div className="flex grow flex-wrap items-center justify-between gap-1">
             <h2 className="text-3xl font-semibold text-teal-600">
               Recommendations
             </h2>
