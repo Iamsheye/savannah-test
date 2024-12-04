@@ -79,7 +79,6 @@ describe("useOutsideClick", () => {
     const callback = vi.fn();
     renderHook(() => useOutsideClick(callback));
 
-    // Simulate click when ref.current is null
     fireEvent.mouseDown(document.body);
 
     expect(callback).not.toHaveBeenCalled();

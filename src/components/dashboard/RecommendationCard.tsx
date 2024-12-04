@@ -1,4 +1,4 @@
-// import ArchiveIcon from "../../assets/archive";
+// import ArchiveIcon from "@/assets/archive";
 import { Recommendation } from "@/types";
 import { CloudIcons } from "@/utils";
 import RiskScoreIndicator from "./RiskIndicator";

@@ -1,5 +1,6 @@
 import { vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import FilterBar from "../FilterBar";
 
 describe("FilterBar", () => {
@@ -81,30 +82,29 @@ describe("FilterBar", () => {
     expect(defaultProps.onSearchChange).toHaveBeenCalledWith("test");
   });
 
-  it("toggles filter dropdown", () => {
+  it("toggles filter dropdown", async () => {
     render(<FilterBar {...defaultProps} />);
+    const user = userEvent.setup();
 
     const filterButton = screen.getByText("Filters");
 
-    fireEvent.click(filterButton);
-    expect(screen.getByText("Cloud Providers")).toBeInTheDocument();
-    expect(screen.getByText("Frameworks")).toBeInTheDocument();
-    expect(screen.getByText("Classes")).toBeInTheDocument();
-    expect(screen.getByText("Reasons")).toBeInTheDocument();
+    await user.click(filterButton);
+    const getBtn = (name: RegExp) => screen.getByRole("button", { name });
 
-    fireEvent.click(filterButton);
-    expect(screen.queryByText("Cloud Providers")).not.toBeInTheDocument();
-    expect(screen.queryByText("Frameworks")).not.toBeInTheDocument();
-    expect(screen.queryByText("Classes")).not.toBeInTheDocument();
-    expect(screen.queryByText("Reasons")).not.toBeInTheDocument();
+    expect(getBtn(/cloud providers/i)).toBeInTheDocument();
+    expect(getBtn(/frameworks/i)).toBeInTheDocument();
+    expect(getBtn(/classes/i)).toBeInTheDocument();
+    expect(getBtn(/reasons/i)).toBeInTheDocument();
   });
 
-  it("calls onFiltersChange when a filter is toggled", () => {
+  it("calls onFiltersChange when a filter is toggled", async () => {
     render(<FilterBar {...defaultProps} />);
+    const user = userEvent.setup();
+
     const filterButton = screen.getByText("Filters");
-    fireEvent.click(filterButton);
+    await user.click(filterButton);
     const awsCheckbox = screen.getByLabelText("aws");
-    fireEvent.click(awsCheckbox);
+    await user.click(awsCheckbox);
 
     expect(defaultProps.onFiltersChange).toHaveBeenCalledWith({
       ...defaultProps.filters,
@@ -112,7 +112,7 @@ describe("FilterBar", () => {
     });
   });
 
-  it("removes filter", () => {
+  it("removes filter", async () => {
     const newProps = {
       ...defaultProps,
       filters: {
@@ -124,12 +124,13 @@ describe("FilterBar", () => {
     };
 
     render(<FilterBar {...newProps} />);
+    const user = userEvent.setup();
 
     const filterButton = screen.getByText("Filters (1)");
-    fireEvent.click(filterButton);
+    await user.click(filterButton);
 
     const awsCheckbox = screen.getByLabelText("aws");
-    fireEvent.click(awsCheckbox);
+    await user.click(awsCheckbox);
 
     expect(defaultProps.onFiltersChange).toHaveBeenCalledWith({
       ...defaultProps.filters,

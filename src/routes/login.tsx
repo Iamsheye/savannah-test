@@ -46,15 +46,6 @@ export const Route = createFileRoute("/login")({
 function Login() {
   const login = useStore((state) => state.login);
 
-  // const {
-  //   handleSubmit,
-  //   register,
-  //   formState: { errors, isSubmitting },
-  // } = useHookForm(signupSchema, {
-  //   username: "",
-  //   password: "",
-  // });
-
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
