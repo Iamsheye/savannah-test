@@ -4,9 +4,6 @@ import {
   ScrollRestoration,
   createRootRoute,
 } from "@tanstack/react-router";
-import {} from "../hook/useAuth";
-import AuthProvider from "../context/auth/provider";
-import MenuProvider from "../context/menu/provider";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -15,12 +12,8 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <React.Fragment>
-      <AuthProvider>
-        <MenuProvider>
-          <ScrollRestoration />
-          <Outlet />
-        </MenuProvider>
-      </AuthProvider>
+      <ScrollRestoration />
+      <Outlet />
     </React.Fragment>
   );
 }

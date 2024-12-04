@@ -1,9 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
-import { useAuth } from "../hook/useAuth";
 import { useHookForm } from "../hook/useHookForm";
 import Input from "../components/auth/Input";
 import { User } from "../types";
+import useStore from "../store";
 
 const signupSchema = z.object({
   username: z.string().min(2, "Username must be at least 2 characters"),
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const { login } = useAuth();
+  const login = useStore((state) => state.login);
 
   const {
     handleSubmit,

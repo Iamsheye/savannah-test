@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import { useAuth } from "../../hook/useAuth";
-import { useMenu } from "../../hook/useMenu";
 import { useOutsideClick } from "../../hook/useOutsideClick";
+import useStore from "../../store";
 
 const Sidebar = () => {
-  const { logout } = useAuth();
-  const { showMenu, setShowMenu } = useMenu();
+  const { logout, showMenu, setShowMenu } = useStore.getState();
 
   useEffect(() => {
     const recommendationsList = document.querySelector(

@@ -15,6 +15,7 @@ export default defineConfig({
         "**/node_modules/**",
         "**/dist/**",
         "./coverage/**",
+        "./server/**",
         "./src/assets/**",
         "./**/*.config.{js,ts}",
         "./**/*.d.ts",

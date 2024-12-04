@@ -9,14 +9,14 @@ import { Recommendation } from "../../types";
 import FilterBar from "../../components/dashboard/FilterBar";
 import RecommendationCard from "../../components/dashboard/RecommendationCard";
 import ArchiveIcon from "../../assets/archive";
-import { useMenu } from "../../hook/useMenu";
+import useStore from "../../store";
 
 export const Route = createFileRoute("/_auth_routes/dashboard")({
   component: Dashboard,
 });
 
 function Dashboard() {
-  const { showMenu, setShowMenu } = useMenu();
+  const { showMenu, setShowMenu } = useStore.getState();
 
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<{
