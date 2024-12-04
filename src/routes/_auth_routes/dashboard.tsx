@@ -31,8 +31,6 @@ function Dashboard() {
     classes: [],
     reasons: [],
   });
-  // const [selectedRecommendation, setSelectedRecommendation] =
-  //   useState<Recommendation | null>(null);
 
   const debouncedSearch = useDebounce(search, 300);
 
