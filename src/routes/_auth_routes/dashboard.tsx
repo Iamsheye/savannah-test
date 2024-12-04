@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_auth_routes/dashboard")({
 });
 
 function Dashboard() {
-  const { showMenu, setShowMenu } = useStore.getState();
+  const { toggleMenu } = useStore();
 
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<{
@@ -76,7 +76,7 @@ function Dashboard() {
     <div>
       <div>
         <div className="mb-8 flex items-center gap-4">
-          <Menu className="md:hidden" onClick={() => setShowMenu(!showMenu)} />
+          <Menu className="md:hidden" onClick={() => toggleMenu()} />
           <div className="flex grow items-center justify-between">
             <h2 className="text-3xl font-semibold text-teal-600">
               Recommendations
@@ -103,7 +103,7 @@ function Dashboard() {
 
       <div
         data-testid="recommendations-list"
-        className="recommendations-list relative flex h-[calc(100dvh-182px)] flex-col gap-3 overflow-y-auto md:h-[calc(100dvh-158px)]"
+        className="recommendations-list relative flex h-[calc(100dvh-182px)] flex-col gap-3 overflow-y-auto pb-4 md:h-[calc(100dvh-158px)]"
       >
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error loading recommendations</div>}

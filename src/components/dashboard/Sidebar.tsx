@@ -4,7 +4,7 @@ import useStore from "@/store";
 import { Button } from "../ui/button";
 
 const Sidebar = () => {
-  const { logout, showMenu, setShowMenu } = useStore.getState();
+  const { logout, showMenu, toggleMenu } = useStore();
 
   useEffect(() => {
     const recommendationsList = document.querySelector(
@@ -18,7 +18,7 @@ const Sidebar = () => {
     }
   }, [showMenu]);
 
-  const ref = useOutsideClick(() => setShowMenu(false));
+  const ref = useOutsideClick(() => toggleMenu(false));
 
   return (
     <div

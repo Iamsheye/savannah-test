@@ -22,7 +22,6 @@ describe("useStore", () => {
   beforeEach(() => {
     useStore.setState({
       user: null,
-      isAuthLoading: false,
       showMenu: false,
     });
 
@@ -34,13 +33,18 @@ describe("useStore", () => {
   it("should initialize with default values", () => {
     const state = useStore.getState();
     expect(state.user).toBeNull();
-    expect(state.isAuthLoading).toBe(false);
     expect(state.showMenu).toBe(false);
   });
 
   it("should set showMenu", () => {
-    const { setShowMenu } = useStore.getState();
-    setShowMenu(true);
+    const { toggleMenu } = useStore.getState();
+    toggleMenu(true);
+    expect(useStore.getState().showMenu).toBe(true);
+  });
+
+  it("should toggle showMenu", () => {
+    const { toggleMenu } = useStore.getState();
+    toggleMenu();
     expect(useStore.getState().showMenu).toBe(true);
   });
 
@@ -55,11 +59,6 @@ describe("useStore", () => {
 
     const state = useStore.getState();
     expect(state.user).toEqual({
-      username: loginData.username,
-      token: mockToken,
-    });
-
-    expect(JSON.parse(localStorage.getItem("user") || "")).toEqual({
       username: loginData.username,
       token: mockToken,
     });

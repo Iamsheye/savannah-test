@@ -67,7 +67,10 @@ function FilterBar({
       children: (
         <>
           {availableTags?.providers.map((provider) => (
-            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+            <div
+              key={provider}
+              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+            >
               <Checkbox
                 id={provider}
                 checked={filters.providers.includes(provider)}
@@ -86,7 +89,10 @@ function FilterBar({
       children: (
         <>
           {availableTags?.frameworks.map((framework) => (
-            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+            <div
+              key={framework}
+              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+            >
               <Checkbox
                 id={framework}
                 checked={filters.frameworks.includes(framework)}
@@ -106,7 +112,10 @@ function FilterBar({
       children: (
         <>
           {availableTags?.classes.map((class_) => (
-            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+            <div
+              key={class_}
+              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+            >
               <Checkbox
                 id={class_}
                 checked={filters.classes.includes(class_)}
@@ -125,7 +134,10 @@ function FilterBar({
       children: (
         <>
           {availableTags?.reasons.map((reason) => (
-            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+            <div
+              key={reason}
+              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+            >
               <Checkbox
                 id={reason}
                 checked={filters.reasons.includes(reason)}

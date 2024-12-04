@@ -34,7 +34,7 @@ export const Route = createLazyFileRoute("/_auth_routes")({
   component: () => (
     <section className="flex overflow-hidden bg-slate-50">
       <Sidebar />
-      <div className="mx-10 mt-8 grow">
+      <div className="mx-4 mt-8 grow md:mx-10">
         <Outlet />
       </div>
     </section>

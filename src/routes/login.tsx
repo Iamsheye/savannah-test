@@ -44,7 +44,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const login = useStore((state) => state.login);
+  const { login } = useStore();
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),

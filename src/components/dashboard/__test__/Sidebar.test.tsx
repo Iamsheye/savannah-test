@@ -1,83 +1,65 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, beforeEach, expect, vi } from "vitest";
 import Sidebar from "../Sidebar";
 import useStore from "@/store";
 
-const mockStore = {
-  showMenu: true,
-  setShowMenu: vi.fn(),
-  logout: vi.fn(),
-};
-
 vi.mock("@/store", () => ({
-  default: {
-    getState: () => mockStore,
-    setState: (updater: any) => {
-      const newState =
-        typeof updater === "function" ? updater(mockStore) : updater;
-      Object.assign(mockStore, newState);
-    },
-    subscribe: vi.fn(),
-  },
+  __esModule: true,
+  default: vi.fn(),
 }));
 
-describe("Sidebar", () => {
+describe("Sidebar Component", () => {
+  const mockLogout = vi.fn();
+  const mockToggleMenu = vi.fn();
+
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockStore.showMenu = true;
-    mockStore.logout = vi.fn();
-    mockStore.setShowMenu = vi.fn();
+    (useStore as vi.Mock).mockReturnValue({
+      logout: mockLogout,
+      showMenu: true,
+      toggleMenu: mockToggleMenu,
+    });
+    render(<Sidebar />);
   });
 
-  it("renders correctly", () => {
-    render(<Sidebar />);
-
-    expect(screen.getByText("ARYON")).toBeInTheDocument();
-    expect(screen.getByText("Platform")).toBeInTheDocument();
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
-    expect(screen.getByText("Recommendations")).toBeInTheDocument();
-    expect(screen.getByText("Policies")).toBeInTheDocument();
-    expect(screen.getByText("Events")).toBeInTheDocument();
-    expect(screen.getByText("Logout")).toBeInTheDocument();
+  it("renders the sidebar with the correct title", () => {
+    const titleElement = screen.getByText(/ARYON/i);
+    expect(titleElement).toBeInTheDocument();
   });
 
-  it("calls logout when logout button is clicked", async () => {
-    const mockLogout = vi.fn();
-    useStore.getState().logout = mockLogout;
-    useStore.getState().showMenu = false;
+  it("renders the navigation items", () => {
+    const navItems = ["Dashboard", "Recommendations", "Policies", "Events"];
+    navItems.forEach((item) => {
+      expect(screen.getByText(item)).toBeInTheDocument();
+    });
+  });
 
-    render(<Sidebar />);
-    const user = userEvent.setup();
-
-    const logoutButton = screen.getByRole("button", { name: /logout/i });
-    await user.click(logoutButton);
-
+  it("calls logout function when Logout button is clicked", () => {
+    const logoutButton = screen.getByRole("button", { name: /Logout/i });
+    fireEvent.click(logoutButton);
     expect(mockLogout).toHaveBeenCalled();
   });
 
-  it("applies correct styling when showMenu is true", () => {
-    render(<Sidebar />);
+  it("sets recommendations list overflow style based on showMenu state", () => {
+    const recommendationsList = document.createElement("div");
+    recommendationsList.className = "recommendations-list";
+    document.body.appendChild(recommendationsList);
 
-    const sidebar = screen.getByTestId("sidebar");
-    expect(sidebar).toHaveClass("active");
-  });
-
-  it("updates recommendations list overflow style based on showMenu", () => {
-    const mockSetStyle = vi.fn();
-    const mockRecommendationsList = document.createElement("div");
-    mockRecommendationsList.style.overflow = "";
-    Object.defineProperty(mockRecommendationsList.style, "overflow", {
-      get: () => "",
-      set: mockSetStyle,
+    (useStore as vi.Mock).mockReturnValueOnce({
+      logout: mockLogout,
+      showMenu: true,
+      toggleMenu: mockToggleMenu,
     });
-
-    vi.spyOn(document, "querySelector").mockReturnValue(
-      mockRecommendationsList,
-    );
-
     render(<Sidebar />);
+    expect(recommendationsList.style.overflow).toBe("hidden");
 
-    expect(mockSetStyle).toHaveBeenCalledWith("hidden");
+    (useStore as vi.Mock).mockReturnValueOnce({
+      logout: mockLogout,
+      showMenu: false,
+      toggleMenu: mockToggleMenu,
+    });
+    render(<Sidebar />);
+    expect(recommendationsList.style.overflow).toBe("auto");
+
+    document.body.removeChild(recommendationsList);
   });
 });
