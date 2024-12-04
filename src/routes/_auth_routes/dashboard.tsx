@@ -103,7 +103,7 @@ function Dashboard() {
 
       <div
         data-testid="recommendations-list"
-        className="recommendations-list relative flex h-[calc(100dvh-182px)] flex-col gap-3 overflow-y-auto pb-4 md:h-[calc(100dvh-158px)]"
+        className="recommendations-list relative flex h-[calc(100dvh-226px)] flex-col gap-3 overflow-y-auto pb-4 md:h-[calc(100dvh-158px)]"
       >
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error loading recommendations</div>}
