@@ -1,7 +1,16 @@
-import { useState } from "react";
-import Accordion from "./Accordion";
-import { useOutsideClick } from "@/hook/useOutsideClick";
 import { Input } from "../ui/input";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Checkbox } from "../ui/checkbox";
 
 interface FilterBarProps {
   total: number;
@@ -37,10 +46,6 @@ function FilterBar({
   showing,
   availableTags,
 }: FilterBarProps) {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  const ref = useOutsideClick(() => setIsFilterOpen(false));
-
   const toggleFilter = (
     type: "providers" | "frameworks" | "classes" | "reasons",
     value: string,
@@ -56,6 +61,86 @@ function FilterBar({
     });
   };
 
+  const AccordionList = [
+    {
+      title: "Cloud Providers",
+      children: (
+        <>
+          {availableTags?.providers.map((provider) => (
+            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+              <Checkbox
+                id={provider}
+                checked={filters.providers.includes(provider)}
+                onCheckedChange={() => toggleFilter("providers", provider)}
+              />
+              <label htmlFor={provider} className="text-sm leading-none">
+                {provider.toLowerCase()}
+              </label>
+            </div>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Frameworks",
+      children: (
+        <>
+          {availableTags?.frameworks.map((framework) => (
+            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+              <Checkbox
+                id={framework}
+                checked={filters.frameworks.includes(framework)}
+                onCheckedChange={() => toggleFilter("frameworks", framework)}
+              />
+              <label htmlFor={framework} className="text-sm leading-none">
+                {framework.toLowerCase()}
+              </label>
+            </div>
+          ))}
+        </>
+      ),
+    },
+
+    {
+      title: "Classes",
+      children: (
+        <>
+          {availableTags?.classes.map((class_) => (
+            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+              <Checkbox
+                id={class_}
+                checked={filters.classes.includes(class_)}
+                onCheckedChange={() => toggleFilter("classes", class_)}
+              />
+              <label htmlFor={class_} className="text-sm leading-none">
+                {class_.toLowerCase().replace(/_/g, " ")}
+              </label>
+            </div>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Reasons",
+      children: (
+        <>
+          {availableTags?.reasons.map((reason) => (
+            <div className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0">
+              <Checkbox
+                id={reason}
+                checked={filters.reasons.includes(reason)}
+                onCheckedChange={() => toggleFilter("reasons", reason)}
+              />
+              <label htmlFor={reason} className="text-sm leading-none">
+                {reason.toLowerCase()}
+              </label>
+            </div>
+          ))}
+        </>
+      ),
+    },
+  ];
+
   return (
     <div className="mb-6">
       <div className="flex flex-wrap items-center justify-between gap-1">
@@ -68,11 +153,8 @@ function FilterBar({
             placeholder="Search recommendations..."
           />
 
-          <div className="relative">
-            <button
-              className="rounded-lg border-[1.5px] border-teal-600 bg-teal-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-white hover:text-teal-600"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-            >
+          <DropdownMenu>
+            <DropdownMenuTrigger className="rounded-lg border-[1.5px] border-teal-600 bg-teal-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-white hover:text-teal-600">
               Filters{" "}
               {filters.providers.length +
                 filters.frameworks.length +
@@ -80,105 +162,33 @@ function FilterBar({
                 filters.reasons.length >
                 0 &&
                 `(${filters.providers.length + filters.frameworks.length + filters.classes.length + filters.reasons.length})`}
-            </button>
-
-            {isFilterOpen && (
-              <div
-                ref={ref}
-                className="absolute right-0 top-full z-10 mt-2 h-auto max-h-96 w-80 overflow-y-auto rounded-lg border bg-gray-50 p-1.5 md:left-0"
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="start"
+              className="z-10 mt-2 h-auto max-h-96 w-80 overflow-y-auto rounded-lg border bg-gray-50 p-1.5 md:left-0"
+            >
+              <Accordion
+                type="multiple"
+                className="w-full space-y-1"
+                defaultValue={["0"]}
               >
-                <Accordion
-                  items={[
-                    {
-                      title: "Cloud Providers",
-                      children: (
-                        <>
-                          {availableTags?.providers.map((provider) => (
-                            <label
-                              key={provider}
-                              className="mb-2 flex items-center gap-2 text-sm capitalize"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={filters.providers.includes(provider)}
-                                onChange={() =>
-                                  toggleFilter("providers", provider)
-                                }
-                              />
-                              {provider.toLowerCase()}
-                            </label>
-                          ))}
-                        </>
-                      ),
-                    },
-                    {
-                      title: "Frameworks",
-                      children: (
-                        <>
-                          {availableTags?.frameworks.map((framework) => (
-                            <label
-                              key={framework}
-                              className="mb-2 flex items-center gap-2 text-sm"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={filters.frameworks.includes(framework)}
-                                onChange={() =>
-                                  toggleFilter("frameworks", framework)
-                                }
-                              />
-                              {framework}
-                            </label>
-                          ))}
-                        </>
-                      ),
-                    },
-
-                    {
-                      title: "Classes",
-                      children: (
-                        <>
-                          {availableTags?.classes.map((class_) => (
-                            <label
-                              key={class_}
-                              className="mb-2 flex items-center gap-2 text-sm"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={filters.classes.includes(class_)}
-                                onChange={() => toggleFilter("classes", class_)}
-                              />
-                              {class_}
-                            </label>
-                          ))}
-                        </>
-                      ),
-                    },
-                    {
-                      title: "Reasons",
-                      children: (
-                        <>
-                          {availableTags?.reasons.map((reason) => (
-                            <label
-                              key={reason}
-                              className="mb-2 flex items-center gap-2 text-sm"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={filters.reasons.includes(reason)}
-                                onChange={() => toggleFilter("reasons", reason)}
-                              />
-                              {reason}
-                            </label>
-                          ))}
-                        </>
-                      ),
-                    },
-                  ]}
-                />
-              </div>
-            )}
-          </div>
+                {AccordionList.map((item, index) => (
+                  <AccordionItem
+                    key={index}
+                    className="rounded-md border"
+                    value={index.toString()}
+                  >
+                    <AccordionTrigger className="flex w-full items-center justify-between rounded-md bg-white px-2 py-1.5 text-sm">
+                      {item.title}
+                    </AccordionTrigger>
+                    <AccordionContent className="rounded-b-md border-t bg-white px-2 py-2">
+                      {item.children}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <p className="text-medium text-sm text-gray-600">
