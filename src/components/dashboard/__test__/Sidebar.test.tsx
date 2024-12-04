@@ -13,6 +13,7 @@ describe("Sidebar Component", () => {
   const mockToggleMenu = vi.fn();
 
   beforeEach(() => {
+    // @ts-expect-error vi.Mock error
     (useStore as vi.Mock).mockReturnValue({
       logout: mockLogout,
       showMenu: true,
@@ -44,6 +45,7 @@ describe("Sidebar Component", () => {
     recommendationsList.className = "recommendations-list";
     document.body.appendChild(recommendationsList);
 
+    // @ts-expect-error vi.Mock error
     (useStore as vi.Mock).mockReturnValueOnce({
       logout: mockLogout,
       showMenu: true,
@@ -52,6 +54,7 @@ describe("Sidebar Component", () => {
     render(<Sidebar />);
     expect(recommendationsList.style.overflow).toBe("hidden");
 
+    // @ts-expect-error vi.Mock error
     (useStore as vi.Mock).mockReturnValueOnce({
       logout: mockLogout,
       showMenu: false,
