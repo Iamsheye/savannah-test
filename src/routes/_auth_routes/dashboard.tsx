@@ -10,6 +10,7 @@ import FilterBar from "@/components/dashboard/FilterBar";
 import RecommendationCard from "@/components/dashboard/RecommendationCard";
 import ArchiveIcon from "@/assets/archive";
 import useStore from "@/store";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_auth_routes/dashboard")({
   component: Dashboard,
@@ -80,10 +81,10 @@ function Dashboard() {
             <h2 className="text-3xl font-semibold text-teal-600">
               Recommendations
             </h2>
-            <button className="flex items-center gap-1.5 text-sm font-medium">
+            <Button variant="ghost">
               <ArchiveIcon />
-              <span>Archive</span>
-            </button>
+              Archive
+            </Button>
           </div>
         </div>
 

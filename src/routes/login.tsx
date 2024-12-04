@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { useHookForm } from "@/hook/useHookForm";
 import Input from "@/components/auth/Input";
+import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 import useStore from "@/store";
 
@@ -77,13 +78,13 @@ function Login() {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
+            className="w-full bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:!ring-teal-500 focus:ring-offset-2"
             disabled={isSubmitting}
-            className="group relative flex w-full justify-center rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
           >
             Sign in
-          </button>
+          </Button>
         </form>
       </div>
     </div>

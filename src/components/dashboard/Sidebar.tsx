@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useOutsideClick } from "@/hook/useOutsideClick";
 import useStore from "@/store";
+import { Button } from "../ui/button";
 
 const Sidebar = () => {
   const { logout, showMenu, setShowMenu } = useStore.getState();
@@ -48,12 +49,9 @@ const Sidebar = () => {
           </div>
         </nav>
 
-        <button
-          className="flex w-fit items-center gap-2 self-center rounded-md bg-red-100 px-4 py-2 text-sm font-medium text-red-600"
-          onClick={logout}
-        >
-          <span>Logout</span>
-        </button>
+        <Button onClick={logout} variant="destructive">
+          Logout
+        </Button>
       </div>
     </div>
   );
