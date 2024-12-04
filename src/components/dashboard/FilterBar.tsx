@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Accordion from "./Accordion";
 import { useOutsideClick } from "@/hook/useOutsideClick";
+import { Input } from "../ui/input";
 
 interface FilterBarProps {
   total: number;
@@ -59,12 +60,12 @@ function FilterBar({
     <div className="mb-6">
       <div className="flex flex-wrap items-center justify-between gap-1">
         <div className="flex items-center gap-2">
-          <input
+          <Input
             type="text"
-            placeholder="Search recommendations..."
-            className="w-64 rounded-lg border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-teal-600"
+            className="w-64"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search recommendations..."
           />
 
           <div className="relative">

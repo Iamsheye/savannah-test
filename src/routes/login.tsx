@@ -1,10 +1,18 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
-import { useHookForm } from "@/hook/useHookForm";
-import Input from "@/components/auth/Input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 import useStore from "@/store";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 
 const signupSchema = z.object({
   username: z.string().min(2, "Username must be at least 2 characters"),
@@ -38,16 +46,24 @@ export const Route = createFileRoute("/login")({
 function Login() {
   const login = useStore((state) => state.login);
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useHookForm(signupSchema, {
-    username: "",
-    password: "",
+  // const {
+  //   handleSubmit,
+  //   register,
+  //   formState: { errors, isSubmitting },
+  // } = useHookForm(signupSchema, {
+  //   username: "",
+  //   password: "",
+  // });
+
+  const form = useForm<z.infer<typeof signupSchema>>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
-  const submitForm = handleSubmit(async (data) => {
+  const submitForm = form.handleSubmit(async (data) => {
     await login(data);
   });
 
@@ -60,32 +76,49 @@ function Login() {
           </h2>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={submitForm}>
-          <div className="space-y-4">
-            <Input
-              type="text"
-              label="Username"
-              name="username"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              type="password"
-              label="Password"
-              name="password"
-              register={register}
-              errors={errors}
-            />
-          </div>
+        <Form {...form}>
+          <form className="mt-8 space-y-6" onSubmit={submitForm}>
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <Button
-            type="submit"
-            className="w-full bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:!ring-teal-500 focus:ring-offset-2"
-            disabled={isSubmitting}
-          >
-            Sign in
-          </Button>
-        </form>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:!ring-teal-500 focus:ring-offset-2"
+              disabled={form.formState.isSubmitting}
+            >
+              Sign in
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
