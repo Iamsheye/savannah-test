@@ -1,31 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Sidebar from "../Sidebar";
-import AuthContext from "../../../context/auth";
-import MenuContext from "../../../context/menu";
-
-const renderWithProviders = (
-  ui: React.ReactElement,
-  { authValue = {}, menuValue = {} } = {},
-) => {
-  return render(
-    <AuthContext.Provider
-      value={{
-        user: null,
-        login: vi.fn(),
-        isLoading: false,
-        logout: vi.fn(),
-        ...authValue,
-      }}
-    >
-      <MenuContext.Provider
-        value={{ showMenu: false, setShowMenu: vi.fn(), ...menuValue }}
-      >
-        {ui}
-      </MenuContext.Provider>
-    </AuthContext.Provider>,
-  );
-};
 
 describe("Sidebar", () => {
   beforeEach(() => {
@@ -33,7 +8,7 @@ describe("Sidebar", () => {
   });
 
   it("renders correctly", () => {
-    renderWithProviders(<Sidebar />);
+    render(<Sidebar />);
 
     expect(screen.getByText("ARYON")).toBeInTheDocument();
     expect(screen.getByText("Platform")).toBeInTheDocument();
@@ -46,9 +21,7 @@ describe("Sidebar", () => {
 
   it("calls logout when logout button is clicked", () => {
     const mockLogout = vi.fn();
-    renderWithProviders(<Sidebar />, {
-      authValue: { logout: mockLogout },
-    });
+    render(<Sidebar />);
 
     const logoutButton = screen.getByText("Logout");
     fireEvent.click(logoutButton);
@@ -57,9 +30,7 @@ describe("Sidebar", () => {
   });
 
   it("applies correct styling when showMenu is true", () => {
-    renderWithProviders(<Sidebar />, {
-      menuValue: { showMenu: true, setShowMenu: vi.fn() },
-    });
+    render(<Sidebar />);
 
     const sidebar = screen.getByTestId("sidebar");
     expect(sidebar).toHaveClass("active");
@@ -78,9 +49,7 @@ describe("Sidebar", () => {
       mockRecommendationsList,
     );
 
-    renderWithProviders(<Sidebar />, {
-      menuValue: { showMenu: true, setShowMenu: vi.fn() },
-    });
+    render(<Sidebar />);
 
     expect(mockSetStyle).toHaveBeenCalledWith("hidden");
   });
