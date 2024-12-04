@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { User } from "../types";
-import { loginUser } from "../services/auth";
-import { toastError } from "../utils";
-import { router } from "../App";
+import { User } from "@/types";
+import { loginUser } from "@/services/auth";
+import { toastError } from "@/utils";
+import { router } from "@/App";
 
 type State = {
   showMenu: boolean;

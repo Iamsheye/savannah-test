@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { User } from "../types";
+import { User } from "@/types";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,

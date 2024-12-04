@@ -1,9 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
-import { useHookForm } from "../hook/useHookForm";
-import Input from "../components/auth/Input";
-import { User } from "../types";
-import useStore from "../store";
+import { useHookForm } from "@/hook/useHookForm";
+import Input from "@/components/auth/Input";
+import { User } from "@/types";
+import useStore from "@/store";
 
 const signupSchema = z.object({
   username: z.string().min(2, "Username must be at least 2 characters"),

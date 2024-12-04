@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Accordion from "./Accordion";
-import { useOutsideClick } from "../../hook/useOutsideClick";
+import { useOutsideClick } from "@/hook/useOutsideClick";
 
 interface FilterBarProps {
   total: number;

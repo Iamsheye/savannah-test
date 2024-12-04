@@ -1,6 +1,6 @@
 // import ArchiveIcon from "../../assets/archive";
-import { Recommendation } from "../../types";
-import { CloudIcons } from "../../utils";
+import { Recommendation } from "@/types";
+import { CloudIcons } from "@/utils";
 import RiskScoreIndicator from "./RiskIndicator";
 
 interface Props {
@@ -51,7 +51,8 @@ function RecommendationCard({ recommendation }: Props) {
           <hr className="my-3 border-gray-300" />
           <div className="flex items-center justify-center gap-1 text-xs font-medium">
             Risk Score:
-            <RiskScoreIndicator score={recommendation.score} />({recommendation.score})
+            <RiskScoreIndicator score={recommendation.score} />(
+            {recommendation.score})
           </div>
         </div>
       </div>

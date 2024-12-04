@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { CloudProvider } from "../types";
+import { CloudProvider } from "@/types";
 
 export const toastError = (err: unknown) => {
   const message = (err as any)?.response?.data?.error || "An error occured";

@@ -4,8 +4,8 @@ import {
   redirect,
   useRouter,
 } from "@tanstack/react-router";
-import { User } from "../types";
-import Sidebar from "../components/dashboard/Sidebar";
+import { User } from "@/types";
+import Sidebar from "@/components/dashboard/Sidebar";
 
 export const Route = createFileRoute("/_auth_routes")({
   beforeLoad: () => {

@@ -3,13 +3,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { Menu } from "lucide-react";
-import { getRecommendations } from "../../services/recommendations";
-import useDebounce from "../../hook/useDebounce";
-import { Recommendation } from "../../types";
-import FilterBar from "../../components/dashboard/FilterBar";
-import RecommendationCard from "../../components/dashboard/RecommendationCard";
-import ArchiveIcon from "../../assets/archive";
-import useStore from "../../store";
+import { getRecommendations } from "@/services/recommendations";
+import useDebounce from "@/hook/useDebounce";
+import { Recommendation } from "@/types";
+import FilterBar from "@/components/dashboard/FilterBar";
+import RecommendationCard from "@/components/dashboard/RecommendationCard";
+import ArchiveIcon from "@/assets/archive";
+import useStore from "@/store";
 
 export const Route = createFileRoute("/_auth_routes/dashboard")({
   component: Dashboard,

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useOutsideClick } from "../../hook/useOutsideClick";
-import useStore from "../../store";
+import { useOutsideClick } from "@/hook/useOutsideClick";
+import useStore from "@/store";
 
 const Sidebar = () => {
   const { logout, showMenu, setShowMenu } = useStore.getState();
