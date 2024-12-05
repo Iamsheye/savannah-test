@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import { Input } from "../ui/input";
 import {
   Accordion,
@@ -46,112 +47,118 @@ function FilterBar({
   showing,
   availableTags,
 }: FilterBarProps) {
-  const toggleFilter = (
-    type: "providers" | "frameworks" | "classes" | "reasons",
-    value: string,
-  ) => {
-    const currentFilters = filters[type];
-    const newFilters = currentFilters.includes(value)
-      ? currentFilters.filter((item) => item !== value)
-      : [...currentFilters, value];
+  const toggleFilter = useCallback(
+    (
+      type: "providers" | "frameworks" | "classes" | "reasons",
+      value: string,
+    ) => {
+      const currentFilters = filters[type];
+      const newFilters = currentFilters.includes(value)
+        ? currentFilters.filter((item) => item !== value)
+        : [...currentFilters, value];
 
-    onFiltersChange({
-      ...filters,
-      [type]: newFilters,
-    });
-  };
+      onFiltersChange({
+        ...filters,
+        [type]: newFilters,
+      });
+    },
+    [filters, onFiltersChange],
+  );
 
-  const AccordionList = [
-    {
-      title: "Cloud Providers",
-      children: (
-        <>
-          {availableTags?.providers.map((provider) => (
-            <div
-              key={provider}
-              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
-            >
-              <Checkbox
-                id={provider}
-                checked={filters.providers.includes(provider)}
-                onCheckedChange={() => toggleFilter("providers", provider)}
-              />
-              <label htmlFor={provider} className="text-sm leading-none">
-                {provider.toLowerCase()}
-              </label>
-            </div>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: "Frameworks",
-      children: (
-        <>
-          {availableTags?.frameworks.map((framework) => (
-            <div
-              key={framework}
-              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
-            >
-              <Checkbox
-                id={framework}
-                checked={filters.frameworks.includes(framework)}
-                onCheckedChange={() => toggleFilter("frameworks", framework)}
-              />
-              <label htmlFor={framework} className="text-sm leading-none">
-                {framework.toLowerCase()}
-              </label>
-            </div>
-          ))}
-        </>
-      ),
-    },
+  const AccordionList = useMemo(
+    () => [
+      {
+        title: "Cloud Providers",
+        children: (
+          <>
+            {availableTags?.providers.map((provider) => (
+              <div
+                key={provider}
+                className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+              >
+                <Checkbox
+                  id={provider}
+                  checked={filters.providers.includes(provider)}
+                  onCheckedChange={() => toggleFilter("providers", provider)}
+                />
+                <label htmlFor={provider} className="text-sm leading-none">
+                  {provider.toLowerCase()}
+                </label>
+              </div>
+            ))}
+          </>
+        ),
+      },
+      {
+        title: "Frameworks",
+        children: (
+          <>
+            {availableTags?.frameworks.map((framework) => (
+              <div
+                key={framework}
+                className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+              >
+                <Checkbox
+                  id={framework}
+                  checked={filters.frameworks.includes(framework)}
+                  onCheckedChange={() => toggleFilter("frameworks", framework)}
+                />
+                <label htmlFor={framework} className="text-sm leading-none">
+                  {framework.toLowerCase()}
+                </label>
+              </div>
+            ))}
+          </>
+        ),
+      },
 
-    {
-      title: "Classes",
-      children: (
-        <>
-          {availableTags?.classes.map((class_) => (
-            <div
-              key={class_}
-              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
-            >
-              <Checkbox
-                id={class_}
-                checked={filters.classes.includes(class_)}
-                onCheckedChange={() => toggleFilter("classes", class_)}
-              />
-              <label htmlFor={class_} className="text-sm leading-none">
-                {class_.toLowerCase().replace(/_/g, " ")}
-              </label>
-            </div>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: "Reasons",
-      children: (
-        <>
-          {availableTags?.reasons.map((reason) => (
-            <div
-              key={reason}
-              className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
-            >
-              <Checkbox
-                id={reason}
-                checked={filters.reasons.includes(reason)}
-                onCheckedChange={() => toggleFilter("reasons", reason)}
-              />
-              <label htmlFor={reason} className="text-sm leading-none">
-                {reason.toLowerCase()}
-              </label>
-            </div>
-          ))}
-        </>
-      ),
-    },
-  ];
+      {
+        title: "Classes",
+        children: (
+          <>
+            {availableTags?.classes.map((class_) => (
+              <div
+                key={class_}
+                className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+              >
+                <Checkbox
+                  id={class_}
+                  checked={filters.classes.includes(class_)}
+                  onCheckedChange={() => toggleFilter("classes", class_)}
+                />
+                <label htmlFor={class_} className="text-sm leading-none">
+                  {class_.toLowerCase().replace(/_/g, " ")}
+                </label>
+              </div>
+            ))}
+          </>
+        ),
+      },
+      {
+        title: "Reasons",
+        children: (
+          <>
+            {availableTags?.reasons.map((reason) => (
+              <div
+                key={reason}
+                className="flex items-center gap-2 py-1 text-sm capitalize first:pt-0 last:pb-0"
+              >
+                <Checkbox
+                  id={reason}
+                  checked={filters.reasons.includes(reason)}
+                  onCheckedChange={() => toggleFilter("reasons", reason)}
+                />
+                <label htmlFor={reason} className="text-sm leading-none">
+                  {reason.toLowerCase()}
+                </label>
+              </div>
+            ))}
+          </>
+        ),
+      },
+    ],
+    [availableTags, filters, toggleFilter],
+  );
 
   return (
     <div className="mb-6">
@@ -203,7 +210,7 @@ function FilterBar({
           </DropdownMenu>
         </div>
 
-        <p className="text-medium text-sm text-gray-600 md:w-fit w-full text-center">
+        <p className="text-medium w-full text-center text-sm text-gray-600 md:w-fit">
           Showing {showing} of {total} results
         </p>
       </div>
@@ -211,4 +218,4 @@ function FilterBar({
   );
 }
 
-export default FilterBar;
+export default React.memo(FilterBar);

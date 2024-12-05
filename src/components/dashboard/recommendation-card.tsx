@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BookOpenText,
   Box,
@@ -16,22 +17,34 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import ArchiveIcon from "@/assets/archive";
 import { PROVIDERS } from "@/constant";
-import { archiveRecommendation } from "@/services/recommendations";
+import {
+  archiveRecommendation,
+  unarchiveRecommendation,
+} from "@/services/recommendations";
 
 interface Props {
+  archive: boolean;
   recommendation: Recommendation;
 }
 
-function RecommendationCard({ recommendation }: Props) {
+function RecommendationCard({ archive, recommendation }: Props) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => archiveRecommendation(recommendation.recommendationId),
+    mutationFn: () =>
+      archive
+        ? unarchiveRecommendation(recommendation.recommendationId)
+        : archiveRecommendation(recommendation.recommendationId),
     mutationKey: ["archive-recommendations"],
     onSuccess: async () => {
-      toast.success("Recommendation archived successfully");
+      toast.success(
+        `Recommendation ${archive ? "unarchived" : "archived"} successfully`,
+      );
       await queryClient.invalidateQueries({
         queryKey: ["recommendations"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["recommendations/archive"],
       });
     },
     onError: (err: unknown) => {
@@ -44,7 +57,7 @@ function RecommendationCard({ recommendation }: Props) {
       <SheetTrigger asChild>
         <div
           data-testid="recommendation-item"
-          className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-all hover:shadow-md"
+          className={`cursor-pointer rounded-lg border border-gray-200 p-4 transition-all hover:shadow-md ${archive ? "" : "bg-white"}`}
         >
           <div className="flex flex-wrap justify-between gap-4 lg:flex-nowrap">
             <div className="flex flex-col gap-2">
@@ -95,7 +108,7 @@ function RecommendationCard({ recommendation }: Props) {
           <div className="flex flex-col gap-2.5 border-b pb-4">
             <h3 className="text-lg font-semibold">{recommendation.title}</h3>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center justify-center gap-1 text-xs font-medium">
                 Risk Score:
                 <RiskScoreIndicator score={recommendation.score} />(
@@ -229,7 +242,7 @@ function RecommendationCard({ recommendation }: Props) {
               onClick={() => mutate()}
             >
               <ArchiveIcon />
-              Archive
+              {archive ? "Unarchive" : "Archive"}
             </Button>
 
             <Button className="bg-teal-600 hover:bg-teal-800">
@@ -242,4 +255,4 @@ function RecommendationCard({ recommendation }: Props) {
   );
 }
 
-export default RecommendationCard;
+export default React.memo(RecommendationCard);

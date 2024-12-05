@@ -8,6 +8,18 @@ export const getRecommendations = async (params: RecommendationsParams) => {
   return response.data;
 };
 
+export const getArchivedRecommendations = async (
+  params: RecommendationsParams,
+) => {
+  const response = await api.get<RecommendationsRes>(
+    "/recommendations/archive",
+    {
+      params,
+    },
+  );
+  return response.data;
+};
+
 export const archiveRecommendation = async (id: string) => {
   const response = await api.post<ArchiveRes>(`/recommendations/${id}/archive`);
   return response.data;

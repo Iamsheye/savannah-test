@@ -1,9 +1,12 @@
 import { useState, Fragment, useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { Menu } from "lucide-react";
-import { getRecommendations } from "@/services/recommendations";
+import { ChevronRight, Menu } from "lucide-react";
+import {
+  getArchivedRecommendations,
+  getRecommendations,
+} from "@/services/recommendations";
 import useDebounce from "@/hook/useDebounce";
 import { Recommendation } from "@/types";
 import FilterBar from "@/components/dashboard/filter-bar";
@@ -11,12 +14,19 @@ import RecommendationCard from "@/components/dashboard/recommendation-card";
 import ArchiveIcon from "@/assets/archive";
 import useStore from "@/store";
 import { Button } from "@/components/ui/button";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export const Route = createFileRoute("/_auth_routes/dashboard")({
-  component: Dashboard,
+  component: () => <Dashboard isArchived={false} />,
 });
 
-function Dashboard() {
+function Dashboard({ isArchived }: { isArchived: boolean }) {
   const { toggleMenu } = useStore();
 
   const [search, setSearch] = useState("");
@@ -34,56 +44,84 @@ function Dashboard() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-    isError,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["recommendations", debouncedSearch, filters],
-    initialPageParam: undefined,
-    queryFn: async ({ pageParam }: { pageParam: string | undefined }) =>
-      await getRecommendations({
-        cursor: pageParam,
-        limit: 10,
-        search: debouncedSearch,
-        tags: [
-          ...filters.providers,
-          ...filters.frameworks,
-          ...filters.classes,
-          ...filters.reasons,
-        ].join(","),
-      }),
-    getNextPageParam: (lastPage) =>
-      lastPage.pagination.cursor.next || undefined,
-  });
+  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: [
+        isArchived ? "recommendations/archive" : "recommendations",
+        debouncedSearch,
+        filters,
+      ],
+      initialPageParam: undefined,
+      queryFn: async ({ pageParam }: { pageParam: string | undefined }) => {
+        const res = isArchived
+          ? getArchivedRecommendations
+          : getRecommendations;
+        return res({
+          cursor: pageParam,
+          limit: 10,
+          search: debouncedSearch,
+          tags: [
+            ...filters.providers,
+            ...filters.frameworks,
+            ...filters.classes,
+            ...filters.reasons,
+          ].join(","),
+        });
+      },
+      getNextPageParam: (lastPage) =>
+        lastPage.pagination.cursor.next || undefined,
+    });
 
   const { ref, inView } = useInView({
     threshold: 0.8,
   });
 
   useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
+    if (inView) {
+      if (
+        (data?.pages.reduce((acc, page) => acc + page.data.length, 0) ?? 0) <
+        (data?.pages[0]?.pagination.totalItems ?? 0)
+      )
+        fetchNextPage();
     }
   }, [inView]);
 
   return (
     <div>
       <div>
-        <div className="mb-8 flex gap-4 md:items-center">
+        <div className={`flex gap-4 md:items-center`}>
           <Menu className="md:hidden" onClick={() => toggleMenu()} />
-          <div className="flex grow flex-wrap items-center justify-between gap-1">
-            <h2 className="text-3xl font-semibold text-teal-600">
-              Recommendations
-            </h2>
-            <Button variant="ghost">
-              <ArchiveIcon />
-              Archive
-            </Button>
-          </div>
+          {isArchived ? (
+            <Breadcrumb className="mb-4">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard">
+                    Recommendations
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <ChevronRight />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/archived">Archive</BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          ) : null}
+        </div>
+
+        <div className="mb-4 flex grow flex-wrap items-center justify-between gap-2">
+          <h2 className="text-3xl font-semibold text-teal-600">
+            {isArchived ? "Recommendations Archived" : "Recommendations"}
+          </h2>
+          {!isArchived ? (
+            <Link href="/archived">
+              <Button variant="ghost">
+                <ArchiveIcon />
+                Archive
+              </Button>
+            </Link>
+          ) : null}
         </div>
 
         <FilterBar
@@ -113,12 +151,14 @@ function Dashboard() {
                 index === page.data.length - 1 ? (
                   <div ref={ref} key={recommendation.recommendationId}>
                     <RecommendationCard
+                      archive={isArchived}
                       key={recommendation.recommendationId}
                       recommendation={recommendation}
                     />
                   </div>
                 ) : (
                   <RecommendationCard
+                    archive={isArchived}
                     key={recommendation.recommendationId}
                     recommendation={recommendation}
                   />
