@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Input } from "../ui/input";
 import {
   Accordion,
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Checkbox } from "../ui/checkbox";
+import { getRecommendations } from "@/services/recommendations";
 
 interface FilterBarProps {
   total: number;
@@ -45,7 +47,6 @@ function FilterBar({
   onFiltersChange,
   total,
   showing,
-  availableTags,
 }: FilterBarProps) {
   const toggleFilter = useCallback(
     (
@@ -64,6 +65,16 @@ function FilterBar({
     },
     [filters, onFiltersChange],
   );
+
+  const data = useQuery({
+    queryKey: ["availableTags"],
+    queryFn: async () =>
+      await getRecommendations({
+        limit: 1,
+      }),
+  });
+
+  const availableTags = data.data?.availableTags;
 
   const AccordionList = useMemo(
     () => [

@@ -133,7 +133,6 @@ function Dashboard({ isArchived }: { isArchived: boolean }) {
           onSearchChange={setSearch}
           filters={filters}
           onFiltersChange={setFilters}
-          availableTags={data?.pages[0].availableTags}
         />
       </div>
 
