@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import useStore from "@/store";
-import Sidebar from "../sidebar.tsx";
+import Sidebar from "../sidebar";
 
 vi.mock("@/store", () => ({
   __esModule: true,
