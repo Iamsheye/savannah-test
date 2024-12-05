@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Recommendation } from "@/types";
 import { CloudIcons, toastError } from "@/utils";
-import RiskScoreIndicator from "./RiskIndicator";
+import RiskScoreIndicator from "./risk-indicator";
 import { Badge } from "../ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";

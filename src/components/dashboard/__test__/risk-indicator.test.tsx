@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
-import RiskScoreIndicator from "../RiskIndicator";
+import RiskScoreIndicator from "../risk-indicator";
 
 describe("RiskScoreIndicator", () => {
   it("renders with no fill when score is 0", () => {

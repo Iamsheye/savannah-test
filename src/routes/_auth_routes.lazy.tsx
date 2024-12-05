@@ -1,5 +1,5 @@
 import { createLazyFileRoute, Outlet, useRouter } from "@tanstack/react-router";
-import Sidebar from "@/components/dashboard/Sidebar";
+import Sidebar from "@/components/dashboard/sidebar";
 
 export const Route = createLazyFileRoute("/_auth_routes")({
   pendingComponent: () => {

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, beforeEach, expect, vi } from "vitest";
-import Sidebar from "../Sidebar";
+import Sidebar from "../sidebar";
 import useStore from "@/store";
 
 vi.mock("@/store", () => ({
