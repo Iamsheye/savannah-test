@@ -6,24 +6,46 @@ import {
   OctagonAlert,
   TriangleAlert,
 } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { Recommendation } from "@/types";
-import { CloudIcons } from "@/utils";
+import { CloudIcons, toastError } from "@/utils";
 import RiskScoreIndicator from "./RiskIndicator";
 import { Badge } from "../ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import ArchiveIcon from "@/assets/archive";
 import { PROVIDERS } from "@/constant";
+import { archiveRecommendation } from "@/services/recommendations";
 
 interface Props {
   recommendation: Recommendation;
 }
 
 function RecommendationCard({ recommendation }: Props) {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => archiveRecommendation(recommendation.recommendationId),
+    mutationKey: ["archive-recommendations"],
+    onSuccess: async () => {
+      toast.success("Recommendation archived successfully");
+      await queryClient.invalidateQueries({
+        queryKey: ["recommendations"],
+      });
+    },
+    onError: (err: unknown) => {
+      toastError(err);
+    },
+  });
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <div className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-all hover:shadow-md">
+        <div
+          data-testid="recommendation-item"
+          className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-all hover:shadow-md"
+        >
           <div className="flex flex-wrap justify-between gap-4 lg:flex-nowrap">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between gap-2">
@@ -201,7 +223,11 @@ function RecommendationCard({ recommendation }: Props) {
         </div>
         <div className="absolute bottom-0 right-0 w-full border-t bg-white px-6 pb-4 pt-3">
           <div className="flex items-center justify-end gap-4">
-            <Button variant="ghost">
+            <Button
+              variant="ghost"
+              disabled={isPending}
+              onClick={() => mutate()}
+            >
               <ArchiveIcon />
               Archive
             </Button>

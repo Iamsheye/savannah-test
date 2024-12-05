@@ -1,8 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RecommendationCard from "../RecommendationCard";
 
 describe("RecommendationCard", () => {
+  const queryClient = new QueryClient();
+
   const mockRecommendation = {
     tenantId: "tenant-001",
     recommendationId: "rec-001",
@@ -56,24 +59,40 @@ describe("RecommendationCard", () => {
   };
 
   it("renders recommendation title", () => {
-    render(<RecommendationCard recommendation={mockRecommendation} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RecommendationCard recommendation={mockRecommendation} />
+      </QueryClientProvider>,
+    );
     expect(screen.getByText(mockRecommendation.title)).toBeInTheDocument();
   });
 
   it("renders recommendation description", () => {
-    render(<RecommendationCard recommendation={mockRecommendation} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RecommendationCard recommendation={mockRecommendation} />
+      </QueryClientProvider>,
+    );
     expect(
       screen.getByText(mockRecommendation.description),
     ).toBeInTheDocument();
   });
 
   it("renders risk score", () => {
-    render(<RecommendationCard recommendation={mockRecommendation} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RecommendationCard recommendation={mockRecommendation} />
+      </QueryClientProvider>,
+    );
     expect(screen.getByText(/risk score:\(93\)/i)).toBeInTheDocument();
   });
 
   it("renders framework tags", () => {
-    render(<RecommendationCard recommendation={mockRecommendation} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RecommendationCard recommendation={mockRecommendation} />
+      </QueryClientProvider>,
+    );
 
     mockRecommendation.frameworks.forEach((framework) => {
       expect(screen.getByText(framework.name)).toBeInTheDocument();
@@ -81,7 +100,11 @@ describe("RecommendationCard", () => {
   });
 
   it("renders provider icons", () => {
-    render(<RecommendationCard recommendation={mockRecommendation} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RecommendationCard recommendation={mockRecommendation} />
+      </QueryClientProvider>,
+    );
     mockRecommendation.provider.forEach(() => {
       const imgs = screen.getAllByRole("img");
       expect(imgs).toHaveLength(mockRecommendation.provider.length);
