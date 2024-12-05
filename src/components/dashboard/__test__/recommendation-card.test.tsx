@@ -61,7 +61,10 @@ describe("RecommendationCard", () => {
   it("renders recommendation title", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <RecommendationCard recommendation={mockRecommendation} />
+        <RecommendationCard
+          archive={false}
+          recommendation={mockRecommendation}
+        />
       </QueryClientProvider>,
     );
     expect(screen.getByText(mockRecommendation.title)).toBeInTheDocument();
@@ -70,7 +73,10 @@ describe("RecommendationCard", () => {
   it("renders recommendation description", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <RecommendationCard recommendation={mockRecommendation} />
+        <RecommendationCard
+          archive={false}
+          recommendation={mockRecommendation}
+        />
       </QueryClientProvider>,
     );
     expect(
@@ -81,7 +87,10 @@ describe("RecommendationCard", () => {
   it("renders risk score", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <RecommendationCard recommendation={mockRecommendation} />
+        <RecommendationCard
+          archive={false}
+          recommendation={mockRecommendation}
+        />
       </QueryClientProvider>,
     );
     expect(screen.getByText(/risk score:\(93\)/i)).toBeInTheDocument();
@@ -90,7 +99,10 @@ describe("RecommendationCard", () => {
   it("renders framework tags", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <RecommendationCard recommendation={mockRecommendation} />
+        <RecommendationCard
+          archive={false}
+          recommendation={mockRecommendation}
+        />
       </QueryClientProvider>,
     );
 
@@ -102,7 +114,10 @@ describe("RecommendationCard", () => {
   it("renders provider icons", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <RecommendationCard recommendation={mockRecommendation} />
+        <RecommendationCard
+          archive={false}
+          recommendation={mockRecommendation}
+        />
       </QueryClientProvider>,
     );
     mockRecommendation.provider.forEach(() => {
