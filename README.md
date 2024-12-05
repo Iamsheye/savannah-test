@@ -16,7 +16,7 @@
 ## Prerequisites
 
 - Node.js
-- Bun (recommended) or any other package manager (npm/yarn/pnpm)
+- npm
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ cd savannah-test
 2. Install all dependencies (both frontend and server):
 
 ```bash
- bun run install:all
+ npm run install:all
 ```
 
 3. Create a `.env` file in the root directory with the following variables:
@@ -42,7 +42,7 @@ VITE_API_URL=http://localhost:3001
 4. Start the development server:
 
 ```bash
-bun run dev
+npm run dev
 ```
 
 The application will be available at:
@@ -55,13 +55,13 @@ The application will be available at:
 The project uses Vitest and Testing Library for testing. Run the test suite with:
 
 ```bash
-bun run test
+npm run test
 ```
 
 For coverage report:
 
 ```bash
-bun run test:cov
+npm run test:cov
 ```
 
 Coverage reports will be generated in the `coverage` directory.
