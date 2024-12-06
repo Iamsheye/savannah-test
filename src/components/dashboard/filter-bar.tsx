@@ -14,6 +14,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Checkbox } from "../ui/checkbox";
 import { getRecommendations } from "@/services/recommendations";
+import { Filter } from "lucide-react";
 
 interface FilterBarProps {
   total: number;
@@ -184,7 +185,8 @@ function FilterBar({
           />
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="rounded-lg border-[1.5px] border-teal-600 bg-teal-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-white hover:text-teal-600">
+            <DropdownMenuTrigger className="flex items-center gap-2 rounded-lg border-[1.5px] border-teal-600 bg-teal-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-white hover:text-teal-600">
+              <Filter className="h-4 w-4" />
               Filters{" "}
               {filters.providers.length +
                 filters.frameworks.length +
