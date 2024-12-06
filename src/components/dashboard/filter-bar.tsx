@@ -222,7 +222,7 @@ function FilterBar({
         </div>
 
         <p className="text-medium w-full text-center text-sm text-gray-600 md:w-fit">
-          Showing {showing} of {total} results
+          Showing {showing > total ? total : showing} of {total} results
         </p>
       </div>
     </div>
