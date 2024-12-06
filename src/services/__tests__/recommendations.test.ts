@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   archiveRecommendation,
+  getArchivedRecommendations,
   getRecommendations,
   unarchiveRecommendation,
 } from "../recommendations";
@@ -25,6 +26,17 @@ describe("getRecommendations", () => {
     await getRecommendations({ cursor: "next-page", limit: 20 });
 
     expect(api.get).toHaveBeenCalledWith("/recommendations", {
+      params: { cursor: "next-page", limit: 20 },
+    });
+  });
+
+  it("should handle archive pagination parameters", async () => {
+    const mockResponse = { data: { data: [], pagination: { cursor: {} } } };
+    vi.mocked(api.get).mockResolvedValueOnce(mockResponse);
+
+    await getArchivedRecommendations({ cursor: "next-page", limit: 20 });
+
+    expect(api.get).toHaveBeenCalledWith("/recommendations/archive", {
       params: { cursor: "next-page", limit: 20 },
     });
   });

@@ -11,3 +11,15 @@ export const CloudIcons = {
   [CloudProvider.AZURE]: "/azure.png",
   [CloudProvider.UNSPECIFIED]: "/cloud.png",
 };
+
+import { RouterHistory } from "@tanstack/react-router";
+
+import { createRouter } from "@tanstack/react-router";
+import { routeTree } from "@/routeTree.gen";
+
+export function routerFactory(history?: RouterHistory) {
+  return createRouter({
+    history,
+    routeTree,
+  });
+}
