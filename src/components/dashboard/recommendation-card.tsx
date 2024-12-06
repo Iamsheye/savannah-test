@@ -57,12 +57,19 @@ function RecommendationCard({ archive, recommendation }: Props) {
       <SheetTrigger asChild>
         <div
           data-testid="recommendation-item"
-          className={`cursor-pointer rounded-lg border border-gray-200 p-4 transition-all hover:shadow-md ${archive ? "" : "bg-white"}`}
+          className="flex cursor-pointer rounded-lg border border-gray-200 transition-all hover:shadow-md"
         >
-          <div className="flex flex-wrap justify-between gap-4 lg:flex-nowrap">
+          <div
+            className={`grid shrink-0 place-content-center rounded-l-lg ${archive ? "bg-slate-300" : "bg-teal-600"} p-4 md:w-[12.5%]`}
+          >
+            <Box className="h-8 w-8 text-white" />
+          </div>
+          <div
+            className={`flex flex-wrap justify-between gap-4 p-4 lg:flex-nowrap ${archive ? "bg-slate-50" : "bg-white"}`}
+          >
             <div className="flex flex-col gap-2">
               <div className="flex justify-between gap-2">
-                <h3 className="text-lg font-semibold">
+                <h3 className="text-xl font-semibold text-teal-700">
                   {recommendation.title}
                 </h3>
                 <div className="flex shrink-0 gap-2">
@@ -106,7 +113,9 @@ function RecommendationCard({ archive, recommendation }: Props) {
       <SheetContent className="sm:max-w-[640px]">
         <div className="relative h-[calc(100dvh-88px)] overflow-y-scroll">
           <div className="flex flex-col gap-2.5 border-b pb-4">
-            <h3 className="text-lg font-semibold">{recommendation.title}</h3>
+            <h3 className="text-xl font-semibold text-teal-700">
+              {recommendation.title}
+            </h3>
 
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center justify-center gap-1 text-xs font-medium">

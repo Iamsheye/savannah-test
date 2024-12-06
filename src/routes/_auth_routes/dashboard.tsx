@@ -2,7 +2,7 @@ import { useState, Fragment, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { ChevronRight, Menu } from "lucide-react";
+import { Archive, ChevronRight, Menu, Sparkles } from "lucide-react";
 import {
   getArchivedRecommendations,
   getRecommendations,
@@ -111,8 +111,18 @@ function Dashboard({ isArchived }: { isArchived: boolean }) {
         </div>
 
         <div className="mb-4 flex grow flex-wrap items-center justify-between gap-2">
-          <h2 className="text-3xl font-semibold text-teal-600">
-            {isArchived ? "Recommendations Archived" : "Recommendations"}
+          <h2 className="text-3xl font-semibold">
+            {isArchived ? (
+              <span className="flex items-center gap-2">
+                Recommendations Archived
+                <Archive />
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                Recommendations
+                <Sparkles className="h-5 w-5 fill-teal-600 text-teal-600" />
+              </span>
+            )}
           </h2>
           {!isArchived ? (
             <Link href="/archived">

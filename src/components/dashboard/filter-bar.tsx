@@ -177,7 +177,7 @@ function FilterBar({
         <div className="flex grow items-center gap-2 md:grow-0">
           <Input
             type="text"
-            className="w-64 grow md:grow-0"
+            className="w-64 grow bg-white md:grow-0"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search recommendations..."
