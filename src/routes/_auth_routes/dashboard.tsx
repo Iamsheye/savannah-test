@@ -42,7 +42,7 @@ function Dashboard({ isArchived }: { isArchived: boolean }) {
     reasons: [],
   });
 
-  const debouncedSearch = useDebounce(search, 750);
+  const debouncedSearch = useDebounce(search, 900);
 
   const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } =
     useInfiniteQuery({
