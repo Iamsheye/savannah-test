@@ -72,5 +72,4 @@ Coverage reports will be generated in the `coverage` directory.
 - `npm run dev:auth` - Start both servers with authentication enabled
 - `npm run build` - Build both frontend and backend
 - `npm run test` - Run frontend tests
-- `npm run test:server` - Run backend tests
 - `npm run test:cov` - Generate test coverage report

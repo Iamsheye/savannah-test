@@ -14,8 +14,11 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthroutesImport } from './routes/_auth_routes'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthroutesPoliciesImport } from './routes/_auth_routes/policies'
+import { Route as AuthroutesEventsImport } from './routes/_auth_routes/events'
 import { Route as AuthroutesDashboardImport } from './routes/_auth_routes/dashboard'
-import { Route as AuthroutesArchivedImport } from './routes/_auth_routes/archived'
+import { Route as AuthroutesRecommendationsIndexImport } from './routes/_auth_routes/recommendations/index'
+import { Route as AuthroutesRecommendationsArchivedImport } from './routes/_auth_routes/recommendations/archived'
 
 // Create/Update Routes
 
@@ -36,17 +39,37 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthroutesPoliciesRoute = AuthroutesPoliciesImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => AuthroutesRoute,
+} as any)
+
+const AuthroutesEventsRoute = AuthroutesEventsImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AuthroutesRoute,
+} as any)
+
 const AuthroutesDashboardRoute = AuthroutesDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthroutesRoute,
 } as any)
 
-const AuthroutesArchivedRoute = AuthroutesArchivedImport.update({
-  id: '/archived',
-  path: '/archived',
-  getParentRoute: () => AuthroutesRoute,
-} as any)
+const AuthroutesRecommendationsIndexRoute =
+  AuthroutesRecommendationsIndexImport.update({
+    id: '/recommendations/',
+    path: '/recommendations/',
+    getParentRoute: () => AuthroutesRoute,
+  } as any)
+
+const AuthroutesRecommendationsArchivedRoute =
+  AuthroutesRecommendationsArchivedImport.update({
+    id: '/recommendations/archived',
+    path: '/recommendations/archived',
+    getParentRoute: () => AuthroutesRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -73,18 +96,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_auth_routes/archived': {
-      id: '/_auth_routes/archived'
-      path: '/archived'
-      fullPath: '/archived'
-      preLoaderRoute: typeof AuthroutesArchivedImport
-      parentRoute: typeof AuthroutesImport
-    }
     '/_auth_routes/dashboard': {
       id: '/_auth_routes/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthroutesDashboardImport
+      parentRoute: typeof AuthroutesImport
+    }
+    '/_auth_routes/events': {
+      id: '/_auth_routes/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof AuthroutesEventsImport
+      parentRoute: typeof AuthroutesImport
+    }
+    '/_auth_routes/policies': {
+      id: '/_auth_routes/policies'
+      path: '/policies'
+      fullPath: '/policies'
+      preLoaderRoute: typeof AuthroutesPoliciesImport
+      parentRoute: typeof AuthroutesImport
+    }
+    '/_auth_routes/recommendations/archived': {
+      id: '/_auth_routes/recommendations/archived'
+      path: '/recommendations/archived'
+      fullPath: '/recommendations/archived'
+      preLoaderRoute: typeof AuthroutesRecommendationsArchivedImport
+      parentRoute: typeof AuthroutesImport
+    }
+    '/_auth_routes/recommendations/': {
+      id: '/_auth_routes/recommendations/'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof AuthroutesRecommendationsIndexImport
       parentRoute: typeof AuthroutesImport
     }
   }
@@ -93,13 +137,20 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthroutesRouteChildren {
-  AuthroutesArchivedRoute: typeof AuthroutesArchivedRoute
   AuthroutesDashboardRoute: typeof AuthroutesDashboardRoute
+  AuthroutesEventsRoute: typeof AuthroutesEventsRoute
+  AuthroutesPoliciesRoute: typeof AuthroutesPoliciesRoute
+  AuthroutesRecommendationsArchivedRoute: typeof AuthroutesRecommendationsArchivedRoute
+  AuthroutesRecommendationsIndexRoute: typeof AuthroutesRecommendationsIndexRoute
 }
 
 const AuthroutesRouteChildren: AuthroutesRouteChildren = {
-  AuthroutesArchivedRoute: AuthroutesArchivedRoute,
   AuthroutesDashboardRoute: AuthroutesDashboardRoute,
+  AuthroutesEventsRoute: AuthroutesEventsRoute,
+  AuthroutesPoliciesRoute: AuthroutesPoliciesRoute,
+  AuthroutesRecommendationsArchivedRoute:
+    AuthroutesRecommendationsArchivedRoute,
+  AuthroutesRecommendationsIndexRoute: AuthroutesRecommendationsIndexRoute,
 }
 
 const AuthroutesRouteWithChildren = AuthroutesRoute._addFileChildren(
@@ -110,16 +161,22 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthroutesRouteWithChildren
   '/login': typeof LoginRoute
-  '/archived': typeof AuthroutesArchivedRoute
   '/dashboard': typeof AuthroutesDashboardRoute
+  '/events': typeof AuthroutesEventsRoute
+  '/policies': typeof AuthroutesPoliciesRoute
+  '/recommendations/archived': typeof AuthroutesRecommendationsArchivedRoute
+  '/recommendations': typeof AuthroutesRecommendationsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthroutesRouteWithChildren
   '/login': typeof LoginRoute
-  '/archived': typeof AuthroutesArchivedRoute
   '/dashboard': typeof AuthroutesDashboardRoute
+  '/events': typeof AuthroutesEventsRoute
+  '/policies': typeof AuthroutesPoliciesRoute
+  '/recommendations/archived': typeof AuthroutesRecommendationsArchivedRoute
+  '/recommendations': typeof AuthroutesRecommendationsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -127,22 +184,44 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth_routes': typeof AuthroutesRouteWithChildren
   '/login': typeof LoginRoute
-  '/_auth_routes/archived': typeof AuthroutesArchivedRoute
   '/_auth_routes/dashboard': typeof AuthroutesDashboardRoute
+  '/_auth_routes/events': typeof AuthroutesEventsRoute
+  '/_auth_routes/policies': typeof AuthroutesPoliciesRoute
+  '/_auth_routes/recommendations/archived': typeof AuthroutesRecommendationsArchivedRoute
+  '/_auth_routes/recommendations/': typeof AuthroutesRecommendationsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/archived' | '/dashboard'
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/dashboard'
+    | '/events'
+    | '/policies'
+    | '/recommendations/archived'
+    | '/recommendations'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/archived' | '/dashboard'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/dashboard'
+    | '/events'
+    | '/policies'
+    | '/recommendations/archived'
+    | '/recommendations'
   id:
     | '__root__'
     | '/'
     | '/_auth_routes'
     | '/login'
-    | '/_auth_routes/archived'
     | '/_auth_routes/dashboard'
+    | '/_auth_routes/events'
+    | '/_auth_routes/policies'
+    | '/_auth_routes/recommendations/archived'
+    | '/_auth_routes/recommendations/'
   fileRoutesById: FileRoutesById
 }
 
@@ -179,19 +258,34 @@ export const routeTree = rootRoute
     "/_auth_routes": {
       "filePath": "_auth_routes.tsx",
       "children": [
-        "/_auth_routes/archived",
-        "/_auth_routes/dashboard"
+        "/_auth_routes/dashboard",
+        "/_auth_routes/events",
+        "/_auth_routes/policies",
+        "/_auth_routes/recommendations/archived",
+        "/_auth_routes/recommendations/"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/_auth_routes/archived": {
-      "filePath": "_auth_routes/archived.tsx",
-      "parent": "/_auth_routes"
-    },
     "/_auth_routes/dashboard": {
       "filePath": "_auth_routes/dashboard.tsx",
+      "parent": "/_auth_routes"
+    },
+    "/_auth_routes/events": {
+      "filePath": "_auth_routes/events.tsx",
+      "parent": "/_auth_routes"
+    },
+    "/_auth_routes/policies": {
+      "filePath": "_auth_routes/policies.tsx",
+      "parent": "/_auth_routes"
+    },
+    "/_auth_routes/recommendations/archived": {
+      "filePath": "_auth_routes/recommendations/archived.tsx",
+      "parent": "/_auth_routes"
+    },
+    "/_auth_routes/recommendations/": {
+      "filePath": "_auth_routes/recommendations/index.tsx",
       "parent": "/_auth_routes"
     }
   }

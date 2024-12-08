@@ -65,7 +65,7 @@ function RecommendationCard({ archive, recommendation }: Props) {
             <Box className="h-8 w-8 text-white" />
           </div>
           <div
-            className={`flex flex-wrap justify-between gap-4 p-4 lg:flex-nowrap ${archive ? "bg-slate-50" : "bg-white"}`}
+            className={`flex flex-wrap justify-between gap-4 bg-white p-4 lg:flex-nowrap`}
           >
             <div className="flex flex-col gap-2">
               <div className="flex justify-between gap-2">

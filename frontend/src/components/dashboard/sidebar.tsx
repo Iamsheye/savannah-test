@@ -8,6 +8,14 @@ import {
   NotepadText,
   Sparkles,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+
+const MENU = [
+  { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+  { name: "Recommendations", path: "/recommendations", icon: Sparkles },
+  { name: "Policies", path: "/policies", icon: NotepadText },
+  { name: "Events", path: "/events", icon: FileSearch2 },
+];
 
 const Sidebar = () => {
   const { logout, showMenu, toggleMenu } = useStore();
@@ -32,7 +40,7 @@ const Sidebar = () => {
       data-testid="sidebar"
       className={`sidebar sticky top-0 z-10 h-screen shrink-0 basis-[225px] border-r border-r-slate-200 bg-white p-4 ${showMenu ? "active" : ""}`}
     >
-      <div className="mb-3">
+      <div className="mb-10">
         <h1>
           <span className="syne text-center font-serif text-4xl font-semibold tracking-tight text-teal-600">
             ARYON
@@ -44,24 +52,19 @@ const Sidebar = () => {
       </div>
 
       <p className="mb-1.5 text-xs font-medium text-slate-600">Platform</p>
-      <div className="flex h-[calc(100dvh-114px)] flex-col justify-between">
+      <div className="flex h-[calc(100dvh-142px)] flex-col justify-between">
         <nav className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 rounded-md p-2 text-sm font-medium">
-            <LayoutDashboard className="h-5 w-5" />
-            <span>Dashboard</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-md bg-teal-100 p-2 text-sm font-medium text-teal-600">
-            <Sparkles className="h-5 w-5 text-teal-600" />
-            <span>Recommendations</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-md p-2 text-sm font-medium">
-            <NotepadText className="h-5 w-5" />
-            <span>Policies</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-md p-2 text-sm font-medium">
-            <FileSearch2 className="h-5 w-5" />
-            <span>Events</span>
-          </div>
+          {MENU.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              activeProps={{ className: "bg-teal-100 text-teal-600" }}
+              className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm"
+            >
+              <item.icon className="h-5 w-5" />
+              <span>{item.name}</span>
+            </Link>
+          ))}
         </nav>
 
         <Button onClick={logout} variant="destructive">

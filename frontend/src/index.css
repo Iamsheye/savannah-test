@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "wdth" 100;
