@@ -1,4 +1,3 @@
-import { vi, describe, it, expect, beforeEach } from "vitest";
 import useStore from "../index";
 import { loginUser } from "@/services/auth";
 import { router } from "@/App";

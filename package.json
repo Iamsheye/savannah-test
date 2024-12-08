@@ -17,6 +17,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:cov": "vitest --coverage",
+    "test:ui": "vitest --ui",
     "test:server": "cd server && npm test"
   },
   "dependencies": {

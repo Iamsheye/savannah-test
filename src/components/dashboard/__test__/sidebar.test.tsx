@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, beforeEach, expect, vi } from "vitest";
 import useStore from "@/store";
 import Sidebar from "../sidebar";
 

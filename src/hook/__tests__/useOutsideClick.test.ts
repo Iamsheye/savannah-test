@@ -1,4 +1,3 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook } from "@testing-library/react";
 import { useOutsideClick } from "../useOutsideClick";
 import { fireEvent } from "@testing-library/dom";

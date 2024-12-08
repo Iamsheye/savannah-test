@@ -1,8 +1,6 @@
-import { describe, it, expect } from "vitest";
+import toast from "react-hot-toast";
 import { CloudIcons, toastError } from "./index";
 import { CloudProvider } from "../types";
-import toast from "react-hot-toast";
-import { vi } from "vitest";
 
 describe("Utils", () => {
   describe("CloudIcons", () => {
