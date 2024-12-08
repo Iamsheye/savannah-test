@@ -33,7 +33,7 @@ cd savannah-test
  npm run install:all
 ```
 
-3. Create a `.env` file in the root directory with the following variables:
+3. Create a `.env` file in the `frontend` directory with the following variables:
 
 ```bash
 VITE_API_URL=http://localhost:3001
