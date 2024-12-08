@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import {
   FileSearch2,
   LayoutDashboard,
+  LogOut,
   NotepadText,
   Sparkles,
 } from "lucide-react";
@@ -66,10 +67,23 @@ const Sidebar = () => {
             </Link>
           ))}
         </nav>
-
-        <Button onClick={logout} variant="destructive">
-          Logout
-        </Button>
+        <div>
+          <div className="flex items-center gap-3 py-4">
+            <div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-300 text-center text-teal-900">
+                <p>RA</p>
+              </div>
+            </div>
+            <div className="py-1">
+              <p className="mb-1 font-semibold leading-none">Raheem Adebayo</p>
+              <p className="text-sm leading-none">adraheemzy@gmail.com</p>
+            </div>
+          </div>
+          <Button onClick={logout} variant="destructive" className="w-full">
+            <LogOut />
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   );
